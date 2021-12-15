@@ -28,3 +28,15 @@
 /* My SCSS */
 @import "components";
 @import "utility";
+
+* {
+  font-family: IRANYekan, "iranyekanregular", "B Yekan", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji" !important;
+
+  outline: none;
+  border: 0;
+  text-align: right;
+  direction: rtl;
+}

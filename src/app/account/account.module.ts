@@ -3,14 +3,21 @@ import { CommonModule } from '@angular/common';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { AccountRoutingModule } from './account-routing.module';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
+import { RouteReuseStrategy, RouterModule } from '@angular/router';
+import { AccountLayoutComponent } from './account-layout/account-layout.component';
+import { ConfirmComponent } from './confirm/confirm.component';
 
 @NgModule({
-  declarations: [SignupComponent, LoginComponent],
+  declarations: [AccountLayoutComponent ,SignupComponent, LoginComponent, ConfirmComponent],
   imports: [
     CommonModule,
+    RouterModule,
     IonicModule,
+    FormsModule,
     AccountRoutingModule,
-  ]
+  ],
+  
 })
 export class AccountModule { }
