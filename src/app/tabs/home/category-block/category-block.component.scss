@@ -1,26 +1,68 @@
-@import '/src/theme/utility';
-@import '/src/theme/vars';
+@import "/src/theme/utility";
+@import "/src/theme/vars";
+
+$padding: 16px;
 
 .category {
-  
+  display: grid;
+  grid-template-columns: 1fr 64px;
+  grid-template-rows: 1fr;
+  grid-template-areas: "content thumbnail";
+  grid-gap: $padding / 2;
+  direction: ltr;
+  padding: $padding;
+  position: relative;
+
   .thumbnail {
     width: 64px;
-    height: 100%;
+    height: 64px;
     object-fit: cover;
     object-position: center;
+    background-color: $ion-color-primary;
+    border-radius: 12px;
+    grid-area: thumbnail;
   }
-  
+
   .content {
+    grid-area: content;
+
     .title {
-
+      margin: 0;
+      font-size: 1.4em;
+      color: $ion-color-medium-tint;
     }
-    .description{
 
-    }
-    .info {
-      border-top: #eee 1px solid;
-      height: 32px;
+    .description {
+      font-size: 1em;
+      @include maxlines(2);
+      margin-bottom: 0;
+      height: 50px;
     }
   }
-  
+
+  .premium {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url('/assets/svg/premium-banner.svg');
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 48px;
+    height: 48px;
+  }
+
+  .bookmark {
+    background-color: transparent;
+    color: $ion-color-medium;
+    --ionicon-stroke-width: 36px;
+    position: absolute;
+    font-size: 24px;
+    bottom: $padding / 2;
+    right: $padding / 2;
+  }
+
+  .bookmark.marked {
+    color: gold;
+  }
 }
