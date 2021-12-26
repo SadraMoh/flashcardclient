@@ -9,7 +9,11 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+  },  {
+    path: 'card',
+    loadChildren: () => import('./card/card.module').then( m => m.CardPageModule)
   }
+
 ];
 @NgModule({
   imports: [

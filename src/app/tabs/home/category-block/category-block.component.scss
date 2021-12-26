@@ -8,7 +8,7 @@ $padding: 16px;
   grid-template-columns: 1fr 64px;
   grid-template-rows: 1fr;
   grid-template-areas: "content thumbnail";
-  grid-gap: $padding / 2;
+  gap: calc($padding / 2);
   direction: ltr;
   padding: $padding;
   position: relative;
@@ -24,19 +24,36 @@ $padding: 16px;
   }
 
   .content {
+    margin: auto 12px auto 0;
     grid-area: content;
 
     .title {
       margin: 0;
-      font-size: 1.4em;
-      color: $ion-color-medium-tint;
+      font-size: 1.3em;
+      color: $ion-color-dark-tint;
     }
 
-    .description {
-      font-size: 1em;
-      @include maxlines(2);
+    .info {
       margin-bottom: 0;
-      height: 50px;
+      margin-top: 8px;
+      @include row;
+      gap: 8px;
+
+      > span {
+        @include row;
+        align-items: center;
+        gap: 4px;
+        font-size: 1.2em;
+      }
+
+      .cards {
+        color: $ion-color-danger;
+      }
+
+      .bookmarks {
+        color: $ion-color-warning;
+      }
+      
     }
   }
 
@@ -44,7 +61,7 @@ $padding: 16px;
     position: absolute;
     top: 0;
     left: 0;
-    background-image: url('/assets/svg/premium-banner.svg');
+    background-image: url("/assets/svg/premium-banner.svg");
     background-position: left top;
     background-repeat: no-repeat;
     background-size: cover;

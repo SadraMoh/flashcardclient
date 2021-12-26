@@ -1,15 +1,18 @@
-<ion-card class="category">
+<ion-card class="category ion-activatable ripple-parent">
   <img class="thumbnail" src="" alt="">
   <div class="content">
     <h2 class="title">این تیتر یک کالکشن می باشد</h2>
-    <p class="description">
-      این توضیحاتی مختصر درباره محتوای یک کالکشن می باشد
-    </p>
     <div class="info">
+      <span class="cards">
+        <ion-icon name="copy-outline"></ion-icon>
+        <span>12</span>
+      </span>
+      <span class="bookmarks">
+        <ion-icon name="star-outline"></ion-icon>
+        <span>16</span>
+      </span>
     </div>
   </div>
-  <button class="bookmark marked">
-    <ion-icon class="" icon="star-outline" color="gray"></ion-icon>
-  </button>
   <div class="premium"></div>
+  <ion-ripple-effect type="unbounded"></ion-ripple-effect>
 </ion-card>
