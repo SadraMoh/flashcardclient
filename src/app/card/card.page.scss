@@ -1,0 +1,160 @@
+@import "/src/theme/utility";
+@import "/src/theme/vars";
+
+.flash {
+  @include col;
+  flex: auto;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 0;
+  background-color: #fafafa;
+  height: 100%;
+
+  .flash-card {
+    @include col;
+    position: relative;
+    border: 4px solid white;
+    background-color: transparent;
+    border-radius: 24px;
+    overflow: hidden;
+    width: 72%;
+    height: 100%;
+    min-width: 280px;
+    min-height: 380px;
+    max-width: 400px;
+    max-height: 580px;
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.28);
+    perspective: 1000px;
+
+    .flash-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+    }
+
+    .flash-image,
+    .flash-content {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden; /* Safari */
+      backface-visibility: hidden;
+    }
+
+    /** front */
+    .flash-image {
+      background-color: tomato;
+      border-radius: 16px;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    /** back */
+    .flash-content {
+      @include col;
+      padding: 24px;
+      transform: rotateY(180deg);
+
+      .flash-title {
+        font-size: 1.4em;
+      }
+
+      .flash-desc {
+        font-size: 1em;
+      }
+    }
+  }
+
+	.flash-card:hover .flash-inner {
+		transform: rotateY(180deg);
+	}
+	
+}
+
+.panel {
+  @include col;
+  padding: 20px 0 28px 0;
+  background-color: #f4f4f4;
+  align-items: center;
+  justify-content: center;
+
+  .navigator {
+    @include col;
+    max-width: calc(100% - 20px);
+
+    .index {
+      color: #b6b6b6;
+      font-size: 0.9em;
+      text-align: center;
+      margin-bottom: 12px;
+
+      .current {
+        color: #555555;
+        font-size: 1.6em;
+      }
+
+      .sep {
+        margin-left: 6px;
+        margin-right: 3px;
+      }
+    }
+
+    .nav {
+      @include row;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+
+      .btn-nav {
+        @include col;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        background-color: #e5e5e5;
+        color: #bbbbbb;
+        border: 1px solid #e2e2e2;
+        padding: 6px;
+        font-size: 28px;
+        border-radius: 16px;
+      }
+
+      .dotnav {
+        @include rowr;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        min-width: 164px;
+        gap: 8px;
+
+        .dot {
+          border-radius: 6px;
+          background-color: #d3d3d3;
+          width: 16px;
+          height: 16px;
+        }
+
+        .dot.passed {
+          background-color: #96d6f9;
+        }
+
+        .dot.active {
+          background-color: #3aa9fa;
+        }
+      }
+    }
+  }
+
+  .actions {
+    @include row;
+    margin-top: 20px;
+    gap: 36px;
+
+    ion-fab-button {
+      ion-icon {
+      }
+    }
+  }
+}

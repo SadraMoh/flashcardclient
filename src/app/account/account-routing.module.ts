@@ -5,6 +5,7 @@ import { ConfirmComponent } from './confirm/confirm.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 
+// -> account
 const routes: Routes = [
   {
     path: '',

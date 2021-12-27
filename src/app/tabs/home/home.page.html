@@ -8,6 +8,16 @@
 
 <ion-content [fullscreen]="true">
   
-  <app-category-block *ngFor="let item of [1,2,3,4,5]"></app-category-block>
+  <ion-button routerLink="/account/login">
+    login
+  </ion-button>
+
+  <ion-button routerLink="/card">
+    card
+  </ion-button>
+  
+  <ion-infinite-scroll>
+    <app-category-block *ngFor="let item of [1,2,3,4]"></app-category-block>
+  </ion-infinite-scroll>
 
 </ion-content>

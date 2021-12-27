@@ -1,9 +1,87 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>card</ion-title>
+    <ion-title>نام دسته بندی</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
+  <div class="flash">
+    <div class="flash-card" (click)="flipped = !flipped">
+      <div class="flas-inner" [class.flipped]="flipped">
+
+        <img class="flash-image" src="/assets/png/pot.png" alt="">
+
+        <div class="flash-content">
+          <h1 class="flash-title">
+            Plant Pot
+          </h1>
+          <p class="flash-desc">
+            نام ظرفی است که معمولاً در آن گل یا گیاه قرار می‌دهند. ظرفی که گلها را دسته بسته در آن نهند. ظرف سفالین یا
+            چینی و جز آن که در آن گلهای زمینی یا معطر کارند یا گلهای زینتی یا معطر از شاخ بریده نهند. بعضی از گلدان‌ها
+            کاربرد تزئینی دارند و بر روی آن‌ها طرح‌ها و نقش‌های زیبایی کشیده شده‌است.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 </ion-content>
+
+<ion-footer>
+
+  <div class="panel">
+
+    <div class="navigator">
+
+      <label class="index">
+        <span class="current">4</span>
+        <span class="sep">/</span>
+        <span>16</span>
+      </label>
+
+      <div class="nav">
+
+        <button class="btn-nav left">
+          <ion-icon icon="chevron-forward"></ion-icon>
+        </button>
+
+        <div class="dotnav">
+          <div class="dot passed"></div>
+          <div class="dot passed"></div>
+          <div class="dot passed"></div>
+          <div class="dot active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+
+        <button class="btn-nav right">
+          <ion-icon icon="chevron-back"></ion-icon>
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="actions">
+
+      <ion-fab-button size="small" color="secondary">
+        <ion-icon name="repeat"></ion-icon>
+      </ion-fab-button>
+
+      <ion-fab-button>
+        <ion-icon name="volume-high-outline"></ion-icon>
+      </ion-fab-button>
+
+      <ion-fab-button size="small" color="gray">
+        <ion-icon name="star" style="color: #cecece;"></ion-icon>
+      </ion-fab-button>
+
+    </div>
+
+  </div>
+
+</ion-footer>
