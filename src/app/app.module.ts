@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
-
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
@@ -22,6 +22,7 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
     IonicModule,
     HttpClientModule,
     FormsModule,
+    IonicStorageModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
