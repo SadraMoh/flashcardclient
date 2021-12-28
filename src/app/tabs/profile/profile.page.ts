@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AccountService } from 'src/app/services/account.service';
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 
 @Component({
   selector: 'app-profile',
@@ -7,6 +9,18 @@ import { Component } from '@angular/core';
 })
 export class ProfilePage {
 
-  constructor() {}
+  constructor(
+    private accountService: AccountService,
+    private iab: InAppBrowser
+  ) {}
+
+  purchase(): void {
+    const browser = this.iab.create('https://ionicframework.com/');
+    browser.show();
+  }
+
+  signout(): void {
+    this.accountService.signout()
+  }
 
 }

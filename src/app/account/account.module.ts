@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { RouteReuseStrategy, RouterModule } from '@angular/router';
 import { AccountLayoutComponent } from './account-layout/account-layout.component';
 import { ConfirmComponent } from './confirm/confirm.component';
+import { UtilityModule } from '../utility/utility.module';
 
 @NgModule({
   declarations: [AccountLayoutComponent ,SignupComponent, LoginComponent, ConfirmComponent],
@@ -17,6 +18,7 @@ import { ConfirmComponent } from './confirm/confirm.component';
     IonicModule,
     FormsModule,
     AccountRoutingModule,
+    UtilityModule
   ],
   
 })

@@ -2,21 +2,34 @@
 
   <ion-item>
     <ion-label position="floating" dir="rtl">نام و نام خانوادگی</ion-label>
-    <ion-input type="tel" inputmode="tel" required></ion-input>
+    <ion-input [(ngModel)]="attempt.fullName" #fullName="ngModel" type="text" inputmode="text" required></ion-input>
   </ion-item>
-
+  <div class="ion-margin-top" *ngIf="fullName.dirty || fullName.touched">
+    <ion-label color="danger" *ngIf="fullName.errors?.['required']">لطفا نام و نام خانوادگی خود را وارد کنید</ion-label>
+  </div>
+  
   <ion-item>
     <ion-label position="floating" dir="rtl">شماره تلفن</ion-label>
-    <ion-input type="tel" inputmode="tel" required></ion-input>
+    <ion-input [(ngModel)]="attempt.telNo" #tel="ngModel" type="tel" inputmode="tel" telno required></ion-input>
   </ion-item>
-
+  <div class="ion-margin-top" *ngIf="tel.dirty || tel.touched">
+    <ion-label color="danger" *ngIf="tel.errors?.['required']">لطفا شماره تلفن خود را وارد کنید</ion-label>
+    <ion-label color="danger" *ngIf="tel.errors?.['telno'] && attempt.telNo">شماره تلفن صحیح نمی باشد</ion-label>
+  </div>
+  
   <ion-item>
     <ion-label position="floating" dir="rtl">رمز عبور</ion-label>
-    <ion-input type="password" inputmode="password" required></ion-input>
+    <ion-input [(ngModel)]="attempt.password" #password="ngModel" type="password" inputmode="password" minlength="4" required>
+    </ion-input>
   </ion-item>
+  <div *ngIf="password.dirty || password.touched" class="ion-margin-top">
+    <ion-label color="danger" *ngIf="password.errors?.['required']">لطفا گذرواژه خود را وارد کنید</ion-label>
+    <ion-label color="danger" *ngIf="password.errors?.['minlength'] && attempt.password">لطفا گذرواژه بلند تری انتخاب کنید</ion-label>
+  </div>
+
 </ion-card>
 
 <div class="ion-padding-horizontal ion-margin-top">
-  <ion-button expand="block" color="primary">ثبت نام</ion-button>
+  <ion-button expand="block" color="primary" [disabled]="!isValid && !working" (click)="signUp()">ثبت نام</ion-button>
   <ion-button expand="block" fill="outline" color="primary" routerLink="/account/login">ورود</ion-button>
 </div>

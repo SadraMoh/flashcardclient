@@ -20,6 +20,7 @@
     "@angular/platform-browser-dynamic": "~12.1.1",
     "@angular/router": "~12.1.1",
     "@auth0/angular-jwt": "^5.0.2",
+    "@awesome-cordova-plugins/in-app-browser": "^5.37.3",
     "@capacitor/android": "3.3.2",
     "@capacitor/app": "1.0.6",
     "@capacitor/core": "3.3.2",
@@ -28,6 +29,7 @@
     "@capacitor/status-bar": "1.0.6",
     "@fireflysemantics/join": "^1.0.14",
     "@ionic/angular": "^5.5.2",
+    "cordova-plugin-inappbrowser": "^5.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

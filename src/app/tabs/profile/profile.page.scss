@@ -1,0 +1,41 @@
+@import "/src/theme/utility";
+@import "/src/theme/vars";
+
+.info {
+}
+
+.offer {
+  background: rgb(49, 134, 251);
+  background: linear-gradient(
+    315deg,
+    rgba(49, 134, 251, 1) 0%,
+    rgba(223, 109, 251, 1) 100%
+  );
+  color: white;
+  text-align: center;
+
+  ion-card-content {
+    @include col;
+    align-items: center;
+    justify-items: center;
+
+    h3 {
+      font-size: 1.5em;
+      text-align: center;
+      padding-bottom: 12px;
+    }
+
+    p {
+      font-size: 1em;
+      opacity: 0.92;
+      text-align: center;
+    }
+
+    ion-button {
+      min-width: 128px;
+      margin-top: 12px;
+      --background: #fff;
+      --color: #333;
+    }
+  }
+}

@@ -6,7 +6,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="column">
 
   <ion-card>
     <ion-card-content>
@@ -16,11 +16,26 @@
       </div>
     </ion-card-content>
   </ion-card>
-  
-  <ion-fab vertical="bottom" horizontal="start" slot="fixed" >
-    <ion-fab-button color="danger">
+
+  <ion-card class="offer">
+    <ion-card-content>
+      <h3>نسخه پریمیوم</h3>
+      <p>
+        متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با
+        استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.
+        توسط فرم زیر می توانید متن ساختگی مورد نظر خود را در واحدهای کاراکتر، کلمه و پاراگراف تولید کنید، سپس آنرا کپی
+        کنید و در کار مورد نظر خود قرار دهید.
+      </p>
+      <ion-button (click)="purchase()" color="light">
+        خرید 
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button color="danger" (click)="signout()">
       <ion-icon name="log-out-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-  
+
 </ion-content>

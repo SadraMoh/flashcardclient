@@ -62,7 +62,7 @@ export class AccountService implements Controller {
    * @param input Username, Password
    * @returns Username, JWT
    */
-   login(input: Signin): Observable<Res<Signin>> {
+   signin(input: Signin): Observable<Res<Signin>> {
     const to = join(this.route, 'Signin');
 
     return from(new Promise<Res<Signin>>((res, rej) => {
