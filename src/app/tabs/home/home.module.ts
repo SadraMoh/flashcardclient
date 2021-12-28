@@ -7,13 +7,16 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { CategoryBlockComponent } from './category-block/category-block.component';
+import { FallbackImageDirective } from 'src/app/utility/directives/fallback-image.directive';
+import { UtilityModule } from 'src/app/utility/utility.module';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    UtilityModule
   ],
   declarations: [HomePage, CategoryBlockComponent]
 })

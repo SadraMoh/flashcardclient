@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Category } from 'src/app/models/category/Category';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-category-block',
@@ -7,8 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoryBlockComponent implements OnInit {
 
-  constructor() { }
+  @Input('category')
+  category: Category;
+  
+  constructor(
+    public accountService: AccountService
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+
+  }
 
 }

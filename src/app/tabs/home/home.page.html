@@ -17,7 +17,7 @@
   </ion-button>
   
   <ion-infinite-scroll>
-    <app-category-block *ngFor="let item of [1,2,3,4]"></app-category-block>
+    <app-category-block *ngFor="let cat of categories" [category]="cat"></app-category-block>
   </ion-infinite-scroll>
 
 </ion-content>

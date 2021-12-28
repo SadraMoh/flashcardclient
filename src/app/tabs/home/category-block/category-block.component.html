@@ -1,20 +1,20 @@
 <div routerLink="/card">
   <ion-card class="category ion-activatable ripple-parent">
-    <img class="thumbnail" src="" alt="">
+    <img class="thumbnail" [src]="category.iconUrl" fallbackImage alt="">
     <div class="content">
-      <h2 class="title">این تیتر یک کالکشن می باشد</h2>
+      <h2 class="title">{{ category.title }}</h2>
       <div class="info">
         <span class="cards">
           <ion-icon name="copy-outline"></ion-icon>
-          <span>12</span>
+          <span>{{ category.id }}</span>
         </span>
-        <span class="bookmarks">
+        <span class="bookmarks" *ngIf="accountService.loggedIn">
           <ion-icon name="star-outline"></ion-icon>
-          <span>16</span>
+          <span>{{ category.favoritesCount }}</span>
         </span>
       </div>
     </div>
-    <div class="premium"></div>
+    <div *ngIf="category.isPayed" class="premium"></div>
     <ion-ripple-effect type="unbounded"></ion-ripple-effect>
   </ion-card>
 </div>
