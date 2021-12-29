@@ -16,10 +16,10 @@ export class CardService {
   constructor(private client: HttpClient) { }
 
   /**
-   * get card info
-   * @param cardId id
+   * get category cards
+   * @param categoryId id
    */
-  get(cardId: number): Observable<Res<Card>> {
+  get(categoryId: number): Observable<Res<Card>> {
     const to = join(this.route, 'get');
 
     return from(new Promise<Res<Card>>((res, rej) => {

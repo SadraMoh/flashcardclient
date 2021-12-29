@@ -4,7 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
+
+import { Drivers, Storage } from '@ionic/storage';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
@@ -22,12 +25,15 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
     IonicModule,
     HttpClientModule,
     FormsModule,
-    IonicStorageModule,
+    IonicStorageModule.forRoot({
+      name: '__mydb',
+      driverOrder: [CordovaSQLiteDriver._driver, Drivers.IndexedDB, Drivers.LocalStorage]
+    }),
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
-    InAppBrowser 
+    InAppBrowser
   ],
   bootstrap: [AppComponent],
 })
