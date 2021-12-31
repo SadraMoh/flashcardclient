@@ -11,6 +11,8 @@ import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
+import { NativeAudio } from '@awesome-cordova-plugins/native-audio/ngx';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
@@ -33,7 +35,8 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
-    InAppBrowser
+    InAppBrowser,
+    NativeAudio
   ],
   bootstrap: [AppComponent],
 })

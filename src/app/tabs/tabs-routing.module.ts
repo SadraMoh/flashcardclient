@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '../utility/guards/auth.guard';
 import { TabsPage } from './tabs.page';
 
 // -> ''
@@ -9,8 +10,9 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'download',
-        loadChildren: () => import('./download/download.module').then(m => m.DownloadPageModule)
+        path: 'favorites',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('./favorites/favorites.module').then(m => m.FavoritesPageModule)
       },
       {
         path: 'home',
@@ -18,6 +20,7 @@ const routes: Routes = [
       },
       {
         path: 'profile',
+        canActivate: [AuthGuard],
         loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule)
       },
       {
@@ -37,4 +40,4 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
 })
-export class TabsPageRoutingModule {}
+export class TabsPageRoutingModule { }

@@ -7,7 +7,7 @@
 <ion-content fullscreen="true">
 
   <div class="flash">
-    <div class="flash-card" (click)="flipped = !flipped">
+    <div class="flash-card" #flipcard (click)="cardClick()" [style.transform]="'translate(' + deltaX + 'px, 0)'">
       <div class="flash-content" [class.flipped]="flipped">
 
         <div class="flash-front">
@@ -15,12 +15,14 @@
         </div>
 
         <div class="flash-back">
-          <h1 class="title">
-            {{ currentCard?.englishTitle }}
-          </h1>
-          <p class="desc">
-            {{ currentCard?.translationPersianTitle }}
-          </p>
+          <div [style.opacity]="flipped ? '1' : '0'">
+            <h1 class="title">
+              {{ currentCard?.englishTitle }}
+            </h1>
+            <p class="desc">
+              {{ currentCard?.translationPersianTitle }}
+            </p>
+          </div>
         </div>
 
       </div>
@@ -36,29 +38,23 @@
     <div class="navigator">
 
       <label class="index">
-        <span class="current">4</span>
+        <span class="current">{{ cardPlace + 1 }}</span>
         <span class="sep">/</span>
-        <span>16</span>
+        <span>{{ cards?.length }}</span>
       </label>
 
       <div class="nav">
 
-        <button class="btn-nav left">
+        <button class="btn-nav left" (click)="next()" [style.visibility]="nextCard ? '' : 'hidden'">
           <ion-icon icon="chevron-forward"></ion-icon>
         </button>
 
         <div class="dotnav">
-          <div class="dot passed"></div>
-          <div class="dot passed"></div>
-          <div class="dot passed"></div>
-          <div class="dot active"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
+          <div class="dot" *ngFor="let card of cards; let i = index" [class.passed]="cardPlace > i"
+            [class.active]="cardPlace == i"></div>
         </div>
 
-        <button class="btn-nav right">
+        <button class="btn-nav forward" (click)="previous()" [style.visibility]="prevCard ? '' : 'hidden'">
           <ion-icon icon="chevron-back"></ion-icon>
         </button>
 
@@ -68,16 +64,16 @@
 
     <div class="actions">
 
-      <ion-fab-button size="small" color="secondary">
+      <ion-fab-button size="small" color="secondary" (click)="cardClick()">
         <ion-icon name="repeat"></ion-icon>
       </ion-fab-button>
 
-      <ion-fab-button>
+      <ion-fab-button (click)="pronounce(currentCard)">
         <ion-icon name="volume-high-outline"></ion-icon>
       </ion-fab-button>
 
-      <ion-fab-button size="small" color="gray">
-        <ion-icon name="star" style="color: #cecece;"></ion-icon>
+      <ion-fab-button size="small" color="gray" (click)="toggleFav()">
+        <ion-icon name="star" [style.color]="currentCard?.isFavorite ? 'gold' : '#cecece'"></ion-icon>
       </ion-fab-button>
 
     </div>

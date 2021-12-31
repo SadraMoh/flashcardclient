@@ -16,8 +16,8 @@ import { UtilityModule } from 'src/app/utility/utility.module';
     CommonModule,
     FormsModule,
     HomePageRoutingModule,
-    UtilityModule
+    UtilityModule,
   ],
-  declarations: [HomePage, CategoryBlockComponent]
+  declarations: [HomePage],
 })
 export class HomePageModule {}

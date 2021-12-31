@@ -3,6 +3,7 @@ export interface Category {
   title: string;
   iconUrl: string;
   favoritesCount: number;
+  cardCount: number;
   isFree: boolean;
   isPayed: boolean;
   //--

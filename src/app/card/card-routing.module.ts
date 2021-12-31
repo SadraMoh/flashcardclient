@@ -6,7 +6,7 @@ import { CardPage } from './card.page';
 // -> card
 const routes: Routes = [
   {
-    path: '',
+    path: ':id',
     component: CardPage
   }
 ];

@@ -1,0 +1,19 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      نشان ها
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ng-container *ngIf="categories?.length > 0; else noent">
+    <app-category-block *ngFor="let cat of categories" [category]="cat"></app-category-block>
+  </ng-container>
+
+  <ng-template #noent>
+    <span  class="noent">شما هنوز هیچ کارت را به علاقه مندی های خود اضافه نکرده اید</span>
+  </ng-template>
+  
+</ion-content>

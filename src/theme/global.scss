@@ -46,5 +46,16 @@ ion-card {
 }
 
 ion-content {
-  --background: #f8f8f8
+  --background: #f8f8f8!important;
+}
+
+.noent {
+  @include row;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  padding: 20px;
+  text-align: center;
+  color: #aaa;
+  font-size: 1em;
 }

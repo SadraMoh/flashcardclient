@@ -1,4 +1,4 @@
-<div routerLink="/card">
+<div (click)="click()">
   <ion-card class="category ion-activatable ripple-parent">
     <img class="thumbnail" [src]="category.iconUrl" fallbackImage alt="">
     <div class="content">
@@ -6,7 +6,7 @@
       <div class="info">
         <span class="cards">
           <ion-icon name="copy-outline"></ion-icon>
-          <span>{{ category.id }}</span>
+          <span>{{ category.cardCount }}</span>
         </span>
         <span class="bookmarks" *ngIf="accountService.loggedIn">
           <ion-icon name="star-outline"></ion-icon>

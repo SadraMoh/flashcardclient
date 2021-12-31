@@ -10,13 +10,25 @@ import { CategoryService } from 'src/app/services/category.service';
 })
 export class HomePage implements OnInit {
 
+  query: string;
+
   categories: Category[]
+
+  public get queriedCategories(): Category[] {
+    if (!this.query) return this.categories;
+    return this.categories?.filter(i => i.title.toLowerCase().includes(this.query.trim().toLowerCase()))
+  }
+
 
   constructor(
     private categoryService: CategoryService
   ) { }
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData(): void {
     this.categoryService.get()
       .subscribe(
         res => {

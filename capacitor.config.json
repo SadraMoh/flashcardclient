@@ -1,6 +1,6 @@
 {
 	"appId": "io.ionic.starter",
-	"appName": "flashcardclient",
+	"appName": "flashcards",
 	"webDir": "www",
 	"bundledWebRuntime": false
 }

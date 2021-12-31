@@ -31,4 +31,20 @@ export class CategoryService {
     }))
   }
 
+  /**
+  * find category by id
+  */
+  find(): Observable<Res<Category>> {
+    const to = join(this.route, 'find');
+
+    return from(new Promise<Res<Category>>((res, rej) => {
+      this.client.get<Res<Category>>(to).subscribe(result => {
+        if (isResVaild(result))
+          res(result);
+        else
+          rej(result.message);
+      });
+    }))
+  }
+
 }

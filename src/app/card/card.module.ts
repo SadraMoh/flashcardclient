@@ -8,6 +8,8 @@ import { CardPageRoutingModule } from './card-routing.module';
 
 import { CardPage } from './card.page';
 
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +17,6 @@ import { CardPage } from './card.page';
     IonicModule,
     CardPageRoutingModule
   ],
-  declarations: [CardPage]
+  declarations: [CardPage],
 })
 export class CardPageModule {}

@@ -4,4 +4,5 @@ export interface Card {
   translationPersianTitle: string;
   englishVoice: string;
   isFavorite: boolean;
+  id: number;
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from 'src/app/services/account.service';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { User } from 'src/app/models/user/User';
+import { PayService } from 'src/app/services/pay.service';
 
 @Component({
   selector: 'app-profile',
@@ -11,10 +12,11 @@ import { User } from 'src/app/models/user/User';
 export class ProfilePage implements OnInit {
 
   user?: User;
-  
+
   constructor(
     private accountService: AccountService,
-    private iab: InAppBrowser
+    private iab: InAppBrowser,
+    private pay: PayService
   ) { }
 
   async ngOnInit() {
@@ -22,8 +24,12 @@ export class ProfilePage implements OnInit {
   }
 
   purchase(): void {
-    const browser = this.iab.create('https://ionicframework.com/');
-    browser.show();
+
+    this.pay.buy()
+      .subscribe(res => {
+        const browser = this.iab.create(res.value);
+        browser.show();
+      })
   }
 
   signout(): void {

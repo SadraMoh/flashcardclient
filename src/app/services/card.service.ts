@@ -19,11 +19,11 @@ export class CardService {
    * get category cards
    * @param categoryId id
    */
-  get(categoryId: number): Observable<Res<Card>> {
+  get(categoryId: number): Observable<Res<Card[]>> {
     const to = join(this.route, 'get');
 
-    return from(new Promise<Res<Card>>((res, rej) => {
-      this.client.get<Res<Card>>(to).subscribe(result => {
+    return from(new Promise<Res<Card[]>>((res, rej) => {
+      this.client.get<Res<Card[]>>(to, { params: {id: categoryId} }).subscribe(result => {
         if (isResVaild(result))
           res(result);
         else

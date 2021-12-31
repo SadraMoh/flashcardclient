@@ -20,6 +20,9 @@ $height: calc(100% - 60px);
     width: $width;
     height: $height;
     max-width: 360px;
+    transition-property: none;
+    transition-duration: .2s;
+    transition-timing-function: ease;
 
     .flash-content {
       position: absolute;
@@ -47,6 +50,8 @@ $height: calc(100% - 60px);
         .flash-image {
           height: 100%;
           width: 100%;
+          user-select: none;
+          -webkit-user-drag: none;
         }
       }
 

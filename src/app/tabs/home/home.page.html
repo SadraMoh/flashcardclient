@@ -7,9 +7,16 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
-  <ion-infinite-scroll>
-    <app-category-block *ngFor="let cat of categories" [category]="cat"></app-category-block>
-  </ion-infinite-scroll>
+
+  <!-- Default Searchbar -->
+  <ion-searchbar showCancelButton="focus" placeholder="جستجو..." [(ngModel)]="query"></ion-searchbar>
+
+  <ng-container *ngIf="queriedCategories?.length > 0; else noent">
+    <app-category-block *ngFor="let cat of queriedCategories" [category]="cat"></app-category-block>
+  </ng-container>
+
+  <ng-template #noent>
+    <span class="noent">در حال بارگذاری</span>
+  </ng-template>
 
 </ion-content>
