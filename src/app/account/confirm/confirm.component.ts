@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgModel } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { Confirm } from 'src/app/models/account/Confirm';
 import { AccountService } from 'src/app/services/account.service';
@@ -19,7 +19,7 @@ export class ConfirmComponent implements OnInit {
     return Boolean(this.auth?.valid);
   }
 
-  attempt: Confirm = { auth: '' };
+  attempt: Confirm = { auth: '', telNo: '' };
 
   /** is working in the background... */
   working: boolean = false;
@@ -27,26 +27,25 @@ export class ConfirmComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private router: Router,
-    public toastController: ToastController
+    public toastController: ToastController,
+    public route: ActivatedRoute
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.attempt.telNo = (this.route.snapshot.params["telno"])
+  }
 
   confirm() {
     this.accountService.confirm(this.attempt)
       .subscribe(
         async res => {
-          (await this.toastController.create({
-            color: "success",
-            message: res.message,
-            duration: 2000,
-          })).present();
+          this.router.navigate(['/','account','login'])
         },
         async rej => {
           (await this.toastController.create({
             color: "danger",
             message: rej,
-            duration: 2000,
+            duration: 4000,
           })).present();
         }
       )

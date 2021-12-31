@@ -1,13 +1,25 @@
 <ion-card class="ion-padding">
 
+  <h4>احراز شماره تلفن</h4>
+  
+  <p>
+    لطفا کد ارسال شده به شماره تلفن 
+    <strong>{{ attempt.telNo }}</strong>
+    را وارد نمایید
+  </p>
+
   <ion-item>
     <ion-label position="floating" dir="rtl">رمز عبور</ion-label>
-    <ion-input type="password" inputmode="password" required></ion-input>
+    <ion-input [(ngModel)]="attempt.auth" #auth="ngModel" type="text" inputmode="text" required>
+    </ion-input>
   </ion-item>
-  
+  <div *ngIf="auth.dirty || auth.touched" class="ion-margin-top">
+    <ion-label color="danger" *ngIf="auth.errors?.['required']">لطفا کد را وارد کنید</ion-label>
+  </div>
+
 </ion-card>
 
 <div class="ion-padding-horizontal ion-margin-top">
-  <ion-button expand="block" color="primary" class="ion-margin-top">ورود</ion-button>
-  <ion-button expand="block" fill="outline" color="primary" routerLink="/account/signup">ثبت نام</ion-button>
+  <ion-button expand="block" color="primary" class="ion-margin-top" [disabled]="!isValid && !working" (click)="confirm()">احراز</ion-button>
+  <ion-button expand="block" fill="outline" color="primary" routerLink="/account/signup">بازگشت</ion-button>
 </div>

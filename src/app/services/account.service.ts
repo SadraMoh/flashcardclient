@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { join } from '@fireflysemantics/join';
-import { Observable, from, of } from 'rxjs';
+import { Observable, from, of, OperatorFunction } from 'rxjs';
 import { Res, isResVaild } from '../models/Res';
 import { User } from '../models/user/User';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -11,6 +11,8 @@ import { Confirm } from '../models/account/Confirm';
 import { Signin } from '../models/account/Signin';
 import { Signup } from '../models/account/Signup';
 import { Controller } from './controller';
+import { UserService } from './user.service';
+import { DbService } from './db.service';
 
 
 @Injectable({
@@ -19,7 +21,7 @@ import { Controller } from './controller';
 export class AccountService implements Controller {
 
   readonly route = join(environment.api, 'account');
-  
+
   /** Get token from localStorage */
   public get token(): string | undefined {
     return localStorage.getItem('tkn') as string | undefined;
@@ -29,9 +31,9 @@ export class AccountService implements Controller {
   public set token(v: string | undefined) {
     localStorage.setItem('tkn', v as string);
   }
-  
+
   private readonly jwtHelper: JwtHelperService = new JwtHelperService();
-  
+
   public get isJWTValid(): boolean {
 
     if (!this.token) return false;
@@ -45,16 +47,32 @@ export class AccountService implements Controller {
   public get loggedIn(): boolean {
     return this.isJWTValid;
   }
-  
+
   public get tokenData(): object | undefined {
     return this.jwtHelper.decodeToken(this.token);
   }
 
-  private _user?: User;
-  
+  public async getUser(): Promise<User> {
+
+    const res = await new Promise<string>((res, rej) => {
+      this.db.get('user').subscribe(json => res(json), err => rej(err))
+    })
+
+    if (!res) return undefined;
+
+    return JSON.parse(res) as User;
+
+  };
+
+  public setUser(v: User): Observable<string> {
+    return this.db.set('user', JSON.stringify(v));
+  }
+
   constructor(
     private client: HttpClient,
     private router: Router,
+    private userService: UserService,
+    private db: DbService
   ) { }
 
   /**
@@ -62,7 +80,7 @@ export class AccountService implements Controller {
    * @param input Username, Password
    * @returns Username, JWT
    */
-   signin(input: Signin): Observable<Res<Signin>> {
+  signin(input: Signin): Observable<Res<Signin>> {
     const to = join(this.route, 'Signin');
 
     return from(new Promise<Res<Signin>>((res, rej) => {
@@ -70,7 +88,8 @@ export class AccountService implements Controller {
         if (isResVaild(result)) {
           this.token = result.value.token as string;
           // hydrate user data
-          this.getUserData().subscribe(res => this._user = res.value);
+          this.userService.find()
+            .subscribe(res => this.setUser(res.value));
           res(result);
         }
         else
@@ -125,24 +144,12 @@ export class AccountService implements Controller {
    */
   signout() {
     this.token = "";
-    this._user = undefined;
+    this.setUser(undefined);
     this.router.navigateByUrl('/account/login');
   }
-  
-  /** Get the logged in users data */
-  getUserData(): Observable<Res<User>> {
-    const to = join(environment.api, 'user', 'find');
 
-    if (!this.token) return of();
-
-    return from(new Promise<Res<User>>((res, rej) => {
-      this.client.get<Res<User>>(to).subscribe(result => {
-        if (isResVaild(result))
-          res(result);
-        else
-          rej(result.message);
-      });
-    }))
-  }
-  
 }
+function take(arg0: number): import("rxjs").OperatorFunction<string, unknown> {
+  throw new Error('Function not implemented.');
+}
+

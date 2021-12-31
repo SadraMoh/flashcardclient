@@ -4,22 +4,22 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen="true">
 
   <div class="flash">
     <div class="flash-card" (click)="flipped = !flipped">
       <div class="flash-content" [class.flipped]="flipped">
 
         <div class="flash-front">
-          <img class="flash-image" [src]="currentCard.imageUrl" alt="">
+          <img class="flash-image" [src]="currentCard?.imageUrl" alt="">
         </div>
 
         <div class="flash-back">
           <h1 class="title">
-            {{ currentCard.englishTitle }}
+            {{ currentCard?.englishTitle }}
           </h1>
           <p class="desc">
-            {{ currentCard.translationPersianTitle }}
+            {{ currentCard?.translationPersianTitle }}
           </p>
         </div>
 

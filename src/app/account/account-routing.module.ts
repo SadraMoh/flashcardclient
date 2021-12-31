@@ -17,7 +17,7 @@ const routes: Routes = [
       { path: 'register', redirectTo: 'signup' },
       { path: 'signup', component: SignupComponent },
       // -
-      { path: '', component: ConfirmComponent },
+      { path: 'confirm/:telno', component: ConfirmComponent },
     ]
   }
 ];

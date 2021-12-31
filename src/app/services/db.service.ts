@@ -2,14 +2,17 @@ import { Injectable } from '@angular/core';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver'
 
+import { Storage } from '@ionic/storage-angular';
+import { from, Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
 export class DbService {
 
   /**
-   * @todo https://github.com/ionic-team/ionic-storage#api
-   * @todo https://ionicframework.com/docs/angular/your-first-app/saving-photos
+   * @see https://github.com/ionic-team/ionic-storage#api
+   * @see https://ionicframework.com/docs/angular/your-first-app/saving-photos
    */
 
   private _storage: Storage | null = null;
@@ -20,18 +23,21 @@ export class DbService {
 
   async init() {
     await this.storage.defineDriver(CordovaSQLiteDriver);
+
     const storage = await this.storage.create();
     this._storage = storage;
   }
 
-  // Create and expose methods that users of this service can
-  // call, for example:
-  public set(key: string, value: any) {
-    this._storage?.set(key, value);
+  public set(key: string, value: any): Observable<string> {
+    return from(this._storage?.set(key, value));
+  }
+
+  public get(key: string): Observable<string> {
+    return from(this._storage?.get(key));
   }
 
   /**
-   * @param imgUrl the url of the image "http://localhost:8084/Uploads/CategoryIcon/4cc9b309-b3a6-452d-b002-8e2ded1da7b3.png"
+   * @param imgUrl the url of the image eg. "http://localhost:8084/Uploads/CategoryIcon/4cc9b309-b3a6-452d-b002-8e2ded1da7b3.png"
    * @returns 
    */
   async saveImg(imgUrl: string) {

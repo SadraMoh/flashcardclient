@@ -11,13 +11,13 @@
   <ion-card>
     <ion-card-content>
       <div class="info">
-        <h2>کاربر کاربر زاده</h2>
-        <h5>09355932930</h5>
+        <h2>{{ user?.fullName }}</h2>
+        <h5>{{ user?.telNo }}</h5>
       </div>
     </ion-card-content>
   </ion-card>
 
-  <ion-card class="offer">
+  <ion-card class="offer" *ngIf="!user?.isPremium">
     <ion-card-content>
       <h3>نسخه پریمیوم</h3>
       <p>

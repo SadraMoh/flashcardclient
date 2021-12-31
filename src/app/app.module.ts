@@ -5,7 +5,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 
-import { Drivers, Storage } from '@ionic/storage';
+import { Drivers, Storage } from '@ionic/Storage';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 

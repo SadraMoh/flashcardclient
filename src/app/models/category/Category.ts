@@ -5,4 +5,6 @@ export interface Category {
   favoritesCount: number;
   isFree: boolean;
   isPayed: boolean;
+  //--
+  downloaded: boolean;
 }

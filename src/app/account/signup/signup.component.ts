@@ -44,13 +44,19 @@ export class SignupComponent implements OnInit {
     this.accountService.signup(this.attempt)
       .subscribe(
         res => {
-          this.router.navigate(['/', 'account', 'confirm'])
+          this.router.navigate(['/', 'account', 'confirm', this.attempt.telNo])
         },
         async rej => {
+
+          if (rej == "کاربر قبلا ثبت شده است") {
+            this.router.navigate(['/', 'account', 'confirm', this.attempt.telNo]);
+            return;
+          }
+
           (await this.toastController.create({
             color: "danger",
             message: rej,
-            duration: 2000,
+            duration: 4000,
           })).present();
         },
         () => {

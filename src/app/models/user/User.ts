@@ -1,4 +1,6 @@
 export interface User {
+  id: number;
   telNo: string;
-  fullName:string;
+  fullName: string;
+  isPremium: boolean;
 }
