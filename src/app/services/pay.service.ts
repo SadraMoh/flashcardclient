@@ -18,11 +18,11 @@ export class PayService implements Controller {
   /**
    * request purchace link
    */
-  buy(): Observable<Res<string>> {
+  buy(): Observable<string> {
     const to = join(this.route, 'buy');
 
-    return from(new Promise<Res<string>>((res, rej) => {
-      this.client.get<Res<string>>(to, {responseType: 'text' as any}).subscribe(result => {
+    return from(new Promise<string>((res, rej) => {
+      this.client.get<string>(to, {responseType: 'text' as any}).subscribe(result => {
           res(result);
       });
     }))

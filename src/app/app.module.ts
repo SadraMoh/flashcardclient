@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ChangeDetectorRef, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -36,7 +36,7 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
     InAppBrowser,
-    NativeAudio
+    NativeAudio,
   ],
   bootstrap: [AppComponent],
 })

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from 'src/app/services/account.service';
-import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { User } from 'src/app/models/user/User';
 import { PayService } from 'src/app/services/pay.service';
+
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 
 @Component({
   selector: 'app-profile',
@@ -27,7 +28,7 @@ export class ProfilePage implements OnInit {
 
     this.pay.buy()
       .subscribe(res => {
-        const browser = this.iab.create(res.value);
+        const browser = this.iab.create(res);
         browser.show();
       })
   }
