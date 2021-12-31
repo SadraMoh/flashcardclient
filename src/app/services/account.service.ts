@@ -54,9 +54,7 @@ export class AccountService implements Controller {
 
   public async getUser(): Promise<User> {
 
-    const res = await new Promise<string>((res, rej) => {
-      this.db.get('user').subscribe(json => res(json), err => rej(err))
-    })
+    const res = await this.db.get('user');
 
     if (!res) return undefined;
 
@@ -64,7 +62,7 @@ export class AccountService implements Controller {
 
   };
 
-  public setUser(v: User): Observable<string> {
+  public setUser(v: User): Promise<string> {
     return this.db.set('user', JSON.stringify(v));
   }
 

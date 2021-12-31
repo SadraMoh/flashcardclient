@@ -28,12 +28,12 @@ export class DbService {
     this._storage = storage;
   }
 
-  public set(key: string, value: any): Observable<string> {
-    return from(this._storage?.set(key, value));
+  public set(key: string, value: any): Promise<string> {
+    return this._storage?.set(key, value);
   }
 
-  public get(key: string): Observable<string> {
-    return from(this._storage?.get(key));
+  public get(key: string): Promise<string> {
+    return this._storage?.get(key);
   }
 
   /**
