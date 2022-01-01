@@ -26,8 +26,8 @@
         توسط فرم زیر می توانید متن ساختگی مورد نظر خود را در واحدهای کاراکتر، کلمه و پاراگراف تولید کنید، سپس آنرا کپی
         کنید و در کار مورد نظر خود قرار دهید.
       </p>
-      <ion-button (click)="purchase()" color="light">
-        خرید 
+      <ion-button [disabled]="working" (click)="purchase()" color="light">
+        خرید
       </ion-button>
     </ion-card-content>
   </ion-card>

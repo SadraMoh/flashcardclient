@@ -14,6 +14,8 @@ export class ProfilePage implements OnInit {
 
   user?: User;
 
+  working: boolean = false;
+
   constructor(
     private accountService: AccountService,
     private iab: InAppBrowser,
@@ -28,8 +30,25 @@ export class ProfilePage implements OnInit {
 
     this.pay.buy()
       .subscribe(res => {
-        const browser = this.iab.create(res);
+        const browser = this.iab.create(res.url);
         browser.show();
+        browser.on('exit').subscribe(i => {
+          console.log(i);
+
+          // check if payment was successful
+          this.pay.check(res.trans_id)
+            .subscribe(
+              paymentRes => {
+                // upgrade user to premium
+                
+              },
+              paymentErr => {
+                // prompt user of error
+                
+              }
+            )
+
+        })
       })
   }
 

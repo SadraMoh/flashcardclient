@@ -4,7 +4,6 @@ import { Card } from '../models/card/Card';
 import { Category } from '../models/category/Category';
 import { CardService } from '../services/card.service';
 import { CategoryService } from '../services/category.service';
-import { NativeAudio } from '@awesome-cordova-plugins/native-audio/ngx';
 import { AudioService } from '../services/audio.service';
 import { Gesture, GestureController, GestureDetail } from '@ionic/angular';
 import { FavoriteService } from '../services/favorite.service';

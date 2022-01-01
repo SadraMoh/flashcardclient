@@ -15,9 +15,6 @@ export class FavoriteService implements Controller {
 
   constructor(private client: HttpClient) { }
 
-  /**
-   * request purchace link
-   */
   create(cardId: number): Observable<boolean> {
     const to = join(this.route, 'create');
 
@@ -28,9 +25,6 @@ export class FavoriteService implements Controller {
     }))
   }
 
-  /**
-   * request purchace link
-   */
   remove(cardId: number): Observable<boolean> {
     const to = join(this.route, 'remove');
 

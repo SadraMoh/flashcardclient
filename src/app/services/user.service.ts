@@ -21,10 +21,6 @@ export class UserService implements Controller {
     private router: Router,
   ) { }
 
-  /**
-   * Login method
-   * @returns Username, JWT
-   */
   find(): Observable<Res<User>> {
     const to = join(this.route, 'find');
 
