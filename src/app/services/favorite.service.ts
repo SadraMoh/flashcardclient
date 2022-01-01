@@ -19,7 +19,7 @@ export class FavoriteService implements Controller {
     const to = join(this.route, 'create');
 
     return from(new Promise<boolean>((res) => {
-      this.client.get<boolean>(to, { params: { id: cardId } }).subscribe(result => {
+      this.client.post<boolean>(to, null, { params: { id: cardId } }).subscribe(result => {
         res(true);
       });
     }))
@@ -29,7 +29,7 @@ export class FavoriteService implements Controller {
     const to = join(this.route, 'remove');
 
     return from(new Promise<boolean>((res) => {
-      this.client.get<boolean>(to, { params: { id: cardId } }).subscribe(result => {
+      this.client.post<boolean>(to, null , { params: { id: cardId } }).subscribe(result => {
         res(false);
       });
     }))

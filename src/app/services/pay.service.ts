@@ -6,7 +6,9 @@ import { environment } from 'src/environments/environment';
 import { Buy } from '../models/pay/Buy';
 import { Check } from '../models/pay/Check';
 import { Res, isResVaild } from '../models/Res';
+import { AccountService } from './account.service';
 import { Controller } from './controller';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,10 @@ export class PayService implements Controller {
 
   readonly route = join(environment.api, 'pay');
 
-  constructor(private client: HttpClient) { }
+  constructor(
+    private client: HttpClient,
+    private user: UserService
+  ) { }
 
   /**
    * request purchace link
@@ -38,23 +43,4 @@ export class PayService implements Controller {
       });
     }))
   }
-
-  /**
-   * check purchase state
-   */
-  check(token_id: string): Observable<Res<Check>> {
-    const to = join(this.route, 'check');
-
-    return from(new Promise<Res<Check>>((res, rej) => {
-      this.client.get<Res<Check>>(to, { params: { token_id } }).subscribe(result => {
-        if (isResVaild(result))
-          res(result);
-        else
-          rej(result.message);
-      });
-    }))
-  }
-
-
-
 }

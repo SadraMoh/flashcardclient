@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { AccountService } from 'src/app/services/account.service';
 
@@ -18,7 +19,7 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     if (!this.account.isJWTValid) {
-      this.router.navigateByUrl('/account/login');
+
       return false;
     }
 

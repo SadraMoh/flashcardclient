@@ -14,7 +14,7 @@
         </span>
       </div>
     </div>
-    <div *ngIf="category.isPayed" class="premium"></div>
+    <div *ngIf="!category.isFree" class="premium"></div>
     <ion-ripple-effect type="unbounded"></ion-ripple-effect>
   </ion-card>
 </div>

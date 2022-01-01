@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>نام دسته بندی</ion-title>
+    <ion-title>{{ category.title ?? 'نام دسته بندی' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -32,6 +32,8 @@
 </ion-content>
 
 <ion-footer>
+
+  <img [src]="foo" width="50" height="50" style="width: 50px; height: 50px;">
 
   <div class="panel">
 
@@ -72,9 +74,14 @@
         <ion-icon name="volume-high-outline"></ion-icon>
       </ion-fab-button>
 
+      <ion-fab-button size="small" color="secondary" (click)="download()">
+        <ion-icon name="cube"></ion-icon>
+      </ion-fab-button>
+
       <ion-fab-button size="small" color="gray" (click)="toggleFav()">
         <ion-icon name="star" [style.color]="currentCard?.isFavorite ? 'gold' : '#cecece'"></ion-icon>
       </ion-fab-button>
+
 
     </div>
 

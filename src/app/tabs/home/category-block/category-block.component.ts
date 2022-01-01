@@ -28,7 +28,7 @@ export class CategoryBlockComponent implements OnInit {
 
     const user = await this.accountService.getUser();
     
-    if(user?.isPremium) {
+    if(user?.isPermium) {
       this.router.navigate(['/', 'card', this.category.id])
       return;
     }

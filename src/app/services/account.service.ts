@@ -56,7 +56,14 @@ export class AccountService implements Controller {
 
     const res = await this.db.get('user');
 
-    if (!res) return undefined;
+    if (!res) {
+      return new Promise<User>((res, rej) => {
+        this.userService.find().subscribe(usr => {
+          this.setUser(usr.value);
+          res(usr.value);
+        })
+      })
+    };
 
     return JSON.parse(res) as User;
 

@@ -34,11 +34,11 @@ export class CategoryService {
   /**
   * find category by id
   */
-  find(): Observable<Res<Category>> {
+  find(id: number): Observable<Res<Category>> {
     const to = join(this.route, 'find');
 
     return from(new Promise<Res<Category>>((res, rej) => {
-      this.client.get<Res<Category>>(to).subscribe(result => {
+      this.client.get<Res<Category>>(to, { params: { id } }).subscribe(result => {
         if (isResVaild(result))
           res(result);
         else
