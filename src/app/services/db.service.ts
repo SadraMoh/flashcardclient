@@ -38,7 +38,7 @@ export class DbService {
   public async findCat(catId: number): Promise<Category> {
     return await (await this.getCats()).find(i => i.id == catId);
   }
-  
+
   public async setCats(cats: Category[]): Promise<string> {
     return await this.set('cats', JSON.stringify(cats));
   }
@@ -72,8 +72,38 @@ export class DbService {
   }
 
   public save(url: string) {
-    return new Promise<{ data: string | ArrayBuffer, filename: string }>((resolve, reject) => {
-      this.client.get(url, { responseType: 'blob', })
+    return new Promise<{ data: string | ArrayBuffer, filename: string }>(async (resolve, reject) => {
+
+      // const res = await fetch(url, {
+      //   "headers": {
+      //     "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+      //     "accept-language": "en-GB,en;q=0.9,fa;q=0.8,de;q=0.7,nl;q=0.6,ru;q=0.5,es;q=0.4,ja;q=0.3",
+      //     "cache-control": "no-cache",
+      //     "pragma": "no-cache",
+      //     "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Microsoft Edge\";v=\"96\"",
+      //     "sec-ch-ua-mobile": "?0",
+      //     "sec-ch-ua-platform": "\"Windows\"",
+      //     "sec-fetch-dest": "image",
+      //     "sec-fetch-mode": "no-cors",
+      //     "sec-fetch-site": "cross-site"
+      //   },
+      //   "referrer": window.location.href,
+      //   "referrerPolicy": "strict-origin-when-cross-origin",
+      //   "body": null,
+      //   "method": "GET",
+      //   "mode": "cors",
+      //   "credentials": "omit"
+      // });
+
+      // const data = await this.blobToImg(await res.blob())
+
+      // const filename = url;
+
+      // await this.set(filename, data);
+
+      // resolve({ data, filename });
+
+      this.client.get(url, { responseType: 'blob' })
         .subscribe(async blob => {
           const data = await this.blobToImg(blob)
 
@@ -82,7 +112,8 @@ export class DbService {
           await this.set(filename, data);
 
           resolve({ data, filename });
-        })
+        },
+        rej => reject(url))
     })
   }
 

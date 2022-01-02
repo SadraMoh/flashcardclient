@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     if (!this.account.isJWTValid) {
-
+      this.router.navigate(['/','account','login']);
       return false;
     }
 

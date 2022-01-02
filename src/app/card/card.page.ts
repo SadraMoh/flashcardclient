@@ -83,14 +83,16 @@ export class CardPage implements OnInit, AfterViewInit {
   async ngOnInit() {
     this.category.id = this.route.snapshot.params["id"];
 
-    if ((await this.account.getUser()).isPermium) {
-      this.category = await this.db.findCat(this.category.id);
+    try {
+      if ((await this.account.getUser()).isPermium) {
+        this.category = await this.db.findCat(this.category.id);
 
-      const allcards = await this.db.getCards()
+        const allcards = await this.db.getCards()
 
-      if (allcards)
-        this.cards = allcards?.filter(i => i.categoryId == this.category.id);
-    }
+        if (allcards)
+          this.cards = allcards?.filter(i => i.categoryId == this.category.id);
+      }
+    } catch (error) { }
 
     this.categoryService.find(this.category.id)
       .subscribe(
@@ -178,7 +180,19 @@ export class CardPage implements OnInit, AfterViewInit {
     this.flipped = !this.flipped;
   }
 
-  toggleFav() {
+  async toggleFav() {
+    
+    if(!this.account.loggedIn) {
+
+      (await this.toastController.create({
+        color: "danger",
+        message: "برای نگه داشتن لیست علاقه مندی ها، ابتدا وارد حساب خود شوید",
+        duration: 3000,
+      })).present();
+      
+      return;
+    }
+    
     this.currentCard.isFavorite = !this.currentCard.isFavorite;
 
     // to favor

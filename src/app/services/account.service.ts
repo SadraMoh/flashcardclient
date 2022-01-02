@@ -58,10 +58,17 @@ export class AccountService implements Controller {
 
     if (!res) {
       return new Promise<User>((res, rej) => {
+
+        if(!this.loggedIn) {
+          rej('tkn invalid or unavailable')
+          return;
+        }
+        
         this.userService.find().subscribe(usr => {
           this.setUser(usr.value);
           res(usr.value);
-        })
+        },
+        () => rej())
       })
     };
 
@@ -153,8 +160,5 @@ export class AccountService implements Controller {
     this.router.navigateByUrl('/account/login');
   }
 
-}
-function take(arg0: number): import("rxjs").OperatorFunction<string, unknown> {
-  throw new Error('Function not implemented.');
 }
 

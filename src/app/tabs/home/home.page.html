@@ -16,7 +16,7 @@
   </ng-container>
 
   <ng-template #noent>
-    <span class="noent">در حال بارگذاری</span>
+    <span class="noent" *ngIf="working">در حال بارگذاری</span>
   </ng-template>
 
 </ion-content>

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { Category } from 'src/app/models/category/Category';
+import { User } from 'src/app/models/user/User';
 import { AccountService } from 'src/app/services/account.service';
 
 @Component({
@@ -26,13 +27,17 @@ export class CategoryBlockComponent implements OnInit {
 
   async click() {
 
-    const user = await this.accountService.getUser();
-    
-    if(user?.isPermium) {
+    let user: User;
+
+    try {
+      user = await this.accountService.getUser();
+    } catch (error) { }
+
+    if (user?.isPermium) {
       this.router.navigate(['/', 'card', this.category.id])
       return;
     }
-    
+
     if (this.category.isFree)
       this.router.navigate(['/', 'card', this.category.id])
     else {
