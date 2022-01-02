@@ -5,4 +5,5 @@ export interface Card {
   englishVoice: string;
   isFavorite: boolean;
   id: number;
+  categoryId?: number;
 }

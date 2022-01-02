@@ -16,6 +16,7 @@ export class AuthInterceptorService implements HttpInterceptor {
     const { token } = this.account;
 
     if (!token) return next.handle(req);
+    if(req.responseType == 'blob') return next.handle(req);;
 
     const modifiedReq = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${token}`),

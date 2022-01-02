@@ -1,6 +1,6 @@
 <div (click)="click()">
   <ion-card class="category ion-activatable ripple-parent">
-    <img class="thumbnail" [src]="category.iconUrl" fallbackImage alt="">
+    <img class="thumbnail" [cacheload]="category.iconUrl" fallbackImage alt="">
     <div class="content">
       <h2 class="title">{{ category.title }}</h2>
       <div class="info">

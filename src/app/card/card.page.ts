@@ -4,10 +4,10 @@ import { Card } from '../models/card/Card';
 import { Category } from '../models/category/Category';
 import { CardService } from '../services/card.service';
 import { CategoryService } from '../services/category.service';
-import { AudioService } from '../services/audio.service';
 import { Gesture, GestureController, GestureDetail, ToastController } from '@ionic/angular';
 import { FavoriteService } from '../services/favorite.service';
 import { DbService } from '../services/db.service';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-card',
@@ -73,15 +73,24 @@ export class CardPage implements OnInit, AfterViewInit {
     private cardService: CardService,
     private categoryService: CategoryService,
     private route: ActivatedRoute,
-    private audio: AudioService,
     private gestureCtrl: GestureController,
     private favorite: FavoriteService,
     private db: DbService,
     public toastController: ToastController,
+    public account: AccountService,
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.category.id = this.route.snapshot.params["id"];
+
+    if ((await this.account.getUser()).isPermium) {
+      this.category = await this.db.findCat(this.category.id);
+
+      const allcards = await this.db.getCards()
+
+      if (allcards)
+        this.cards = allcards?.filter(i => i.categoryId == this.category.id);
+    }
 
     this.categoryService.find(this.category.id)
       .subscribe(
@@ -92,6 +101,11 @@ export class CardPage implements OnInit, AfterViewInit {
       .subscribe(
         res => {
           this.cards = res.value
+
+          this.cards.forEach(card => {
+            this.db.addCard(card);
+          })
+
           // initializes the first card
           this.next();
         }
@@ -164,10 +178,6 @@ export class CardPage implements OnInit, AfterViewInit {
     this.flipped = !this.flipped;
   }
 
-  pronounce(card: Card): void {
-    this.audio.play(card.englishVoice);
-  }
-
   toggleFav() {
     this.currentCard.isFavorite = !this.currentCard.isFavorite;
 
@@ -178,24 +188,4 @@ export class CardPage implements OnInit, AfterViewInit {
       this.favorite.remove(this.currentCard.id)
 
   }
-
-  foo;
-
-  async download() {
-    // this.db.saveCategory(this.category, this.cards);
-
-    const path = await this.db.save(this.currentCard.imageUrl);
-
-    (await this.toastController.create({
-      color: "info",
-      message: path.filepath + ' ' + path.webviewPath + ' ' ,
-      duration: 4000,
-    })).present();
-    
-    // const data = await this.db.read(path.filepath);
-
-    this.foo = path.webviewPath;
-
-  }
-
 }

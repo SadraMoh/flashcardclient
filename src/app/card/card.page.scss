@@ -52,6 +52,8 @@ $height: calc(100% - 60px);
           width: 100%;
           user-select: none;
           -webkit-user-drag: none;
+          object-fit: cover;
+          object-position: center;
         }
       }
 

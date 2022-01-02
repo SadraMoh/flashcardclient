@@ -5,12 +5,14 @@ import { TelnoDirective } from './validators/telno/telno.directive';
 import { CategoryBlockComponent } from '../tabs/home/category-block/category-block.component';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { CacheloadDirective } from './directives/cacheload.directive';
 
 @NgModule({
   declarations: [
     FallbackImageDirective,
     TelnoDirective,
     CategoryBlockComponent,
+    CacheloadDirective,
   ],
   imports: [
     IonicModule,
@@ -20,7 +22,8 @@ import { IonicModule } from '@ionic/angular';
   exports: [
     FallbackImageDirective,
     TelnoDirective,
-    CategoryBlockComponent
+    CategoryBlockComponent,
+    CacheloadDirective
   ]
 })
 export class UtilityModule { }

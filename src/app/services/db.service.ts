@@ -9,6 +9,7 @@ import { Card } from '../models/card/Card';
 
 import { Platform } from '@ionic/angular';
 import { Capacitor } from '@capacitor/core';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +25,35 @@ export class DbService {
 
   constructor(
     private storage: Storage,
-    private platform: Platform
+    private platform: Platform,
+    private client: HttpClient
   ) {
     this.init();
+  }
+
+  public async getCats(): Promise<Category[]> {
+    return await JSON.parse(await this.get('cats'));
+  }
+
+  public async findCat(catId: number): Promise<Category> {
+    return await (await this.getCats()).find(i => i.id == catId);
+  }
+  
+  public async setCats(cats: Category[]): Promise<string> {
+    return await this.set('cats', JSON.stringify(cats));
+  }
+
+  public async getCards(): Promise<Card[]> {
+    return await JSON.parse(await this.get('cards'));
+  }
+
+  public async findCard(cardId: number): Promise<Card> {
+    return await (await this.getCards()).find(i => i.id == cardId);
+  }
+
+  public async addCard(cats: Card): Promise<string> {
+    const arr = [].concat(cats);
+    return await this.set('cards', JSON.stringify(arr));
   }
 
   async init() {
@@ -44,101 +71,49 @@ export class DbService {
     return this._storage?.get(key);
   }
 
-  /**
-   * @param imgUrl the url of the image eg. "http://localhost:8084/Uploads/CategoryIcon/4cc9b309-b3a6-452d-b002-8e2ded1da7b3.png"
-   * @returns 
-   */
-  async save(imgUrl: string) {
-    // Convert photo to base64 format, required by Filesystem API to save
-    const base64Data = await this.readAsBase64(imgUrl);
+  public save(url: string) {
+    return new Promise<{ data: string | ArrayBuffer, filename: string }>((resolve, reject) => {
+      this.client.get(url, { responseType: 'blob', })
+        .subscribe(async blob => {
+          const data = await this.blobToImg(blob)
 
-    // Write the file to the data directory
-    // const fileName = new Date().getTime() + '.jpeg';
+          const filename = url;
 
-    const fileName = imgUrl.split('/').pop();
-    
-    const savedFile = await Filesystem.writeFile({
-      path: fileName,
-      data: base64Data,
-      directory: Directory.Data
-    });
+          await this.set(filename, data);
 
-    if (this.platform.is('hybrid')) {
-      // Display the new image by rewriting the 'file://' path to HTTP
-      // Details: https://ionicframework.com/docs/building/webview#file-protocol
-      return {
-        filepath: savedFile.uri,
-        webviewPath: Capacitor.convertFileSrc(savedFile.uri),
-      };
-    }
-    else {
-      // Use webPath to display the new image instead of base64 since it's
-      // already loaded into memory
-      return {
-        filepath: fileName,
-        webviewPath: imgUrl
-      };
-    }
-  }
-
-  /**
-   * 
-   * @param fileName file to read
-   * @returns base64
-   */
-  async read(imgUrl: string): Promise<string> {
-
-    const fileName = imgUrl.split('/').pop();
-    
-    const readFile = await Filesystem.readFile({
-      path: fileName,
-      directory: Directory.Data
+          resolve({ data, filename });
+        })
     })
-
-    return readFile.data
   }
 
-  async readAsBase64(imgUrl: string) {
-    // "hybrid" will detect Cordova or Capacitor
-    if (this.platform.is('hybrid')) {
-      // Read the file into base64 format
-      const file = await Filesystem.readFile({
-        path: imgUrl
-      });
-
-      return file.data;
-    }
-    else {
-      // Fetch the photo, read as a blob, then convert to base64 format
-      const response = await fetch(imgUrl);
-      const blob = await response.blob();
-
-      return await this.convertBlobToBase64(blob) as string;
-    }
+  public load(filename: string): Promise<string> {
+    return this.get(filename)
   }
 
-  private convertBlobToBase64 = (blob: Blob) => new Promise((res, rej) => {
-    const reader = new FileReader;
-    reader.onerror = rej;
-    reader.onload = () => {
-      res(reader.result);
-    };
-    reader.readAsDataURL(blob);
-  });
+  blobToImg(image: Blob): Promise<string | ArrayBuffer> {
+    return new Promise((resolve, reject) => {
+      let reader = new FileReader();
+      reader.addEventListener("load", () => {
+        resolve(reader.result);
+      }, false);
 
-
-  public async saveCategory(cat: Category, cards: Card[]) {
-
-    let cats: Category[] = JSON.parse(await this.get("categories"));
-    cats ??= [];
-    cats.push?.(cat);
-    await this.set("categories", JSON.stringify(cats));
-
-    const tasks: Promise<any>[] = [];
-    cards.forEach(card => tasks.push(this.save(card.imageUrl), this.save(card.englishVoice)))
-
-    return await Promise.all(tasks)
-
+      if (image)
+        reader.readAsDataURL(image);
+    })
   }
+
+  // public async saveCategory(cat: Category, cards: Card[]) {
+
+  //   let cats: Category[] = JSON.parse(await this.get("categories"));
+  //   cats ??= [];
+  //   cats.push?.(cat);
+  //   await this.set("categories", JSON.stringify(cats));
+
+  //   const tasks: Promise<any>[] = [];
+  //   cards.forEach(card => tasks.push(this.save(card.imageUrl), this.save(card.englishVoice)))
+
+  //   return await Promise.all(tasks)
+
+  // }
 
 }
