@@ -16,6 +16,8 @@ export class HomePage implements OnInit {
 
   categories: Category[]
 
+  working: boolean = false;
+
   public get queriedCategories(): Category[] {
     if (!this.query) return this.categories;
     return this.categories?.filter(i => i.title?.toLowerCase().includes(this.query?.trim().toLowerCase()))
@@ -32,14 +34,23 @@ export class HomePage implements OnInit {
   }
 
   async loadData() {
+    this.working = true;
 
+<<<<<<< HEAD
     this.categories = await this.db.getCats();
+=======
+    try {
+      if ((await this.account.getUser()).isPermium)
+        this.categories = await this.db.getCats();
+    } catch (error) { }
+>>>>>>> 882dc096f52dbcc323551fb720ea02836ce654e2
 
     this.categoryService.get()
       .subscribe(
         async res => {
           this.categories = res.value;
           await this.db.setCats(res.value);
+          this.working = false;
         }
       )
   }

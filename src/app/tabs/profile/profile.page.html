@@ -8,29 +8,53 @@
 
 <ion-content [fullscreen]="true" class="column">
 
-  <ion-card>
-    <ion-card-content>
-      <div class="info">
-        <h2>{{ user?.fullName }}</h2>
-        <h5>{{ user?.telNo }}</h5>
-      </div>
-    </ion-card-content>
-  </ion-card>
+  <ng-container *ngIf="user; else login">
+    <ion-card>
+      <ion-card-content>
+        <div class="info">
+          <h2>{{ user?.fullName }}</h2>
+          <h5>{{ user?.telNo }}</h5>
+        </div>
+      </ion-card-content>
+    </ion-card>
 
-  <ion-card class="offer" *ngIf="!user?.isPermium">
-    <ion-card-content>
-      <h3>نسخه پریمیوم</h3>
-      <p>
-        متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با
-        استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.
-        توسط فرم زیر می توانید متن ساختگی مورد نظر خود را در واحدهای کاراکتر، کلمه و پاراگراف تولید کنید، سپس آنرا کپی
-        کنید و در کار مورد نظر خود قرار دهید.
-      </p>
-      <ion-button [disabled]="working" (click)="purchase()" color="light">
-        خرید
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
+    <ion-card class="offer" *ngIf="!user?.isPermium">
+      <ion-card-content>
+        <h3>نسخه پریمیوم</h3>
+        <p>
+          متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با
+          استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.
+          توسط فرم زیر می توانید متن ساختگی مورد نظر خود را در واحدهای کاراکتر، کلمه و پاراگراف تولید کنید، سپس آنرا کپی
+          کنید و در کار مورد نظر خود قرار دهید.
+        </p>
+        <ion-button [disabled]="working" (click)="purchase()" color="light">
+          خرید
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+  <ng-template #login>
+
+    <ion-card>
+      <ion-card-content>
+        <div class="info">
+          <h2>{{ user?.fullName }}</h2>
+          <p>
+            شما وارد حساب نشده اید، لطفا وارد شوید
+          </p>
+
+          <br>
+          
+          <ion-button [disabled]="working" (click)="signout()" color="primary">
+            ورود
+          </ion-button>
+          
+        </div>
+      </ion-card-content>
+    </ion-card>
+    
+  </ng-template>
 
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button color="danger" (click)="signout()">
