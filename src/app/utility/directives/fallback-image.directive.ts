@@ -14,7 +14,7 @@ export class FallbackImageDirective {
   loadFallbackOnError() {
     const element: HTMLImageElement = <HTMLImageElement>this.eRef.nativeElement;
     element.setAttribute('failedToLoad', element.src);
-    element.src = this.fallbackImage || './assets/icon/favicon.png';
+    element.src = this.fallbackImage || './assets/svg/failed.svg';
   }
 
 }

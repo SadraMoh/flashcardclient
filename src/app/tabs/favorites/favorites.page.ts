@@ -25,9 +25,8 @@ export class FavoritesPage implements OnInit {
 
   async loadData() {
 
-    if ((await this.account.getUser()).isPermium)
-      this.categories = (await this.db.getCats()).filter(i => i.favoritesCount > 0);
-    
+    this.categories = (await this.db.getCats()).filter(i => i.favoritesCount > 0);
+
     this.categoryService.get()
       .subscribe(
         res => {
@@ -35,5 +34,5 @@ export class FavoritesPage implements OnInit {
         }
       )
   }
-  
+
 }

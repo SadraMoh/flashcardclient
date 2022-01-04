@@ -33,8 +33,13 @@ export class CacheloadDirective {
     // attempt to get image from db
     let imageData = await this.db.get(this.url)
 
-    // save the image if it's not available
-    imageData ??= await (await this.db.save(this.url)).data as string;
+    try {
+      // save the image if it's not available
+      imageData ??= await (await this.db.save(this.url)).data as string;
+    } 
+    catch (error) { 
+      imageData = "./assets/svg/failed.svg";
+    }
 
     //const ext = this.url.split('/').pop().split('.').pop();
     // ref.src = `data:image/${ext};base64, ${imageData}`;

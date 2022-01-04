@@ -4,12 +4,15 @@
       خانه
     </ion-title>
   </ion-toolbar>
+
+  <ion-toolbar>
+    <!-- Default Searchbar -->
+    <ion-searchbar showCancelButton="focus" placeholder="جستجو..." [(ngModel)]="query"></ion-searchbar>
+  </ion-toolbar>
+
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
-  <!-- Default Searchbar -->
-  <ion-searchbar showCancelButton="focus" placeholder="جستجو..." [(ngModel)]="query"></ion-searchbar>
 
   <ng-container *ngIf="queriedCategories?.length > 0; else noent">
     <app-category-block *ngFor="let cat of queriedCategories" [category]="cat"></app-category-block>

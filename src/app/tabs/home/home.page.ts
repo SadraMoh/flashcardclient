@@ -33,8 +33,7 @@ export class HomePage implements OnInit {
 
   async loadData() {
 
-    if ((await this.account.getUser()).isPermium)
-      this.categories = await this.db.getCats();
+    this.categories = await this.db.getCats();
 
     this.categoryService.get()
       .subscribe(

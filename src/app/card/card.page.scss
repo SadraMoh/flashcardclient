@@ -1,89 +1,6 @@
 @import "/src/theme/utility";
 @import "/src/theme/vars";
 
-$width: 80%;
-$height: calc(100% - 60px);
-
-.flash {
-  @include col;
-  flex: auto;
-  align-items: center;
-  justify-content: center;
-  padding: 28px 0;
-  background-color: #fafafa;
-  height: 100%;
-  overflow: hidden;
-
-  .flash-card {
-    position: relative;
-    perspective: 1000px;
-    width: $width;
-    height: $height;
-    max-width: 360px;
-    transition-property: none;
-    transition-duration: .2s;
-    transition-timing-function: ease;
-
-    .flash-content {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-
-      transition: transform 0.6s ease;
-      transform-style: preserve-3d;
-
-      .flash-front,
-      .flash-back {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        backface-visibility: hidden;
-        //-
-        border: 4px solid white;
-        border-radius: 24px;
-        box-shadow: 0 10px 32px rgba(0, 0, 0, 0.28);
-        background: white;
-        overflow: hidden;
-      }
-
-      .flash-front {
-        .flash-image {
-          height: 100%;
-          width: 100%;
-          user-select: none;
-          -webkit-user-drag: none;
-          object-fit: cover;
-          object-position: center;
-        }
-      }
-
-      .flash-back {
-        transform: rotateY(180deg);
-        //-
-        padding: 24px;
-
-        .title {
-          margin-top: 0;
-          margin-bottom: 8px;
-          font-size: 1.4em;
-          text-align: center;
-          color: #444;
-        }
-        
-        .desc {
-          font-size: .9em;
-          color: #666;
-        }
-        
-      }
-    }
-  }
-
-  .flash-content.flipped {
-    transform: rotateY(180deg);
-  }
-}
-
 .panel {
   @include col;
   padding: 20px 0 28px 0;
@@ -132,7 +49,7 @@ $height: calc(100% - 60px);
       }
 
       .dotnav {
-        @include rowr;
+        @include row;
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;

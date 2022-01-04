@@ -38,7 +38,6 @@ export class ProfilePage implements OnInit {
         const browser = this.iab.create(res.url);
         browser.show();
         browser.on('exit').subscribe(i => {
-          console.log(i);
 
           // check if payment was successful
           this.userService.find()

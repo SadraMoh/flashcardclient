@@ -1,0 +1,28 @@
+<div class="flash" [class.fav]="card.isFavorite">
+  <div class="flash-card" (click)="flashClick($event)">
+    <div class="flash-content" [class.flipped]="flipped">
+
+      <div class="flash-front">
+        <img class="flash-image" src="/assets/svg/loading.svg" [cacheload]="card.imageUrl" alt="card image">
+      </div>
+
+      <div class="flash-back">
+
+        <div [style.opacity]="flipped ? '1' : '0'">
+          <h1 class="title">
+            {{ card.englishTitle }}
+          </h1>
+          <p class="desc" *ngIf="persian">
+            {{ card.translationPersianTitle }}
+          </p>
+        </div>
+
+        <ion-fab-button class="fav" size="small" color="gray" (click)="toggleFav()" #fav>
+          <ion-icon name="star" [style.color]="card?.isFavorite ? 'gold' : '#cecece'"></ion-icon>
+        </ion-fab-button>
+        
+      </div>
+
+    </div>
+  </div>
+</div>

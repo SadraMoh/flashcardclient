@@ -1,43 +1,23 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>{{ category.title ?? 'نام دسته بندی' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content fullscreen="true">
 
-  <div class="flash">
-    <div class="flash-card" #flipcard (click)="cardClick()" [style.transform]="'translate(' + deltaX + 'px, 0)'">
-      <div class="flash-content" [class.flipped]="flipped">
-
-        <div class="flash-front">
-          <!-- <img class="flash-image" [src]="currentCard?.imageUrl" alt="" #cardImg> -->
-          <img class="flash-image" [cacheload]="currentCard?.imageUrl" #cardImg>
-
-          <audio [cacheload]="currentCard?.englishVoice" #cardAudio></audio>
-          
-        </div>
-
-        <div class="flash-back">
-          <div [style.opacity]="flipped ? '1' : '0'">
-            <h1 class="title">
-              {{ currentCard?.englishTitle }}
-            </h1>
-            <p class="desc">
-              {{ currentCard?.translationPersianTitle }}
-            </p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
+  <ion-slides style="height: 100%;" #slider (ionSlideWillChange)="slideChange()">
+    <ion-slide *ngFor="let card of cards">
+      <app-flipcard [card]="card" [(flipped)]="flipped" [(persian)]="persian"></app-flipcard>
+    </ion-slide>
+  </ion-slides>
 
 </ion-content>
 
 <ion-footer>
-
-  <!-- <img [src]="foo" width="50" height="50" style="width: 50px; height: 50px;"> -->
 
   <div class="panel">
 
@@ -49,18 +29,19 @@
         <span>{{ cards?.length }}</span>
       </label>
 
+      
       <div class="nav">
 
-        <button class="btn-nav left" (click)="next()" [style.visibility]="nextCard ? '' : 'hidden'">
+        <button class="btn-nav left" (click)="slider.slidePrev()">
           <ion-icon icon="chevron-forward"></ion-icon>
         </button>
 
         <div class="dotnav">
           <div class="dot" *ngFor="let card of cards; let i = index" [class.passed]="cardPlace > i"
-            [class.active]="cardPlace == i"></div>
+            [class.active]="cardPlace == i" (click)="slider.slideTo(i)"></div>
         </div>
 
-        <button class="btn-nav forward" (click)="previous()" [style.visibility]="prevCard ? '' : 'hidden'">
+        <button class="btn-nav forward" (click)="slider.slideNext()">
           <ion-icon icon="chevron-back"></ion-icon>
         </button>
 
@@ -68,18 +49,20 @@
 
     </div>
 
+    <audio [cacheload]="currentCard?.englishVoice" #currentAudio></audio>
+
     <div class="actions">
 
-      <ion-fab-button size="small" color="secondary" (click)="cardClick()">
+      <ion-fab-button size="small" color="secondary" (click)="flipped = !flipped;">
         <ion-icon name="repeat"></ion-icon>
       </ion-fab-button>
 
-      <ion-fab-button (click)="cardAudio.play()">
+      <ion-fab-button (click)="currentAudio.play()">
         <ion-icon name="volume-high-outline"></ion-icon>
       </ion-fab-button>
 
-      <ion-fab-button size="small" color="gray" (click)="toggleFav()">
-        <ion-icon name="star" [style.color]="currentCard?.isFavorite ? 'gold' : '#cecece'"></ion-icon>
+      <ion-fab-button size="small" color="gray" (click)="persian = !persian; flipped = true">
+        <img src="/assets/png/iran.png" alt="">
       </ion-fab-button>
 
 

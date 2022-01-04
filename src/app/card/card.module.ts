@@ -9,7 +9,7 @@ import { CardPageRoutingModule } from './card-routing.module';
 import { CardPage } from './card.page';
 import { UtilityModule } from '../utility/utility.module';
 
-
+import { FlipcardComponent } from './flipcard/flipcard.component';
 
 @NgModule({
   imports: [
@@ -19,6 +19,6 @@ import { UtilityModule } from '../utility/utility.module';
     CardPageRoutingModule,
     UtilityModule
   ],
-  declarations: [CardPage],
+  declarations: [CardPage, FlipcardComponent],
 })
 export class CardPageModule {}
