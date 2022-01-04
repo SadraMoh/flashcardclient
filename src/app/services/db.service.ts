@@ -132,11 +132,7 @@ export class DbService {
 
           resolve({ data, filename });
         },
-<<<<<<< HEAD
         (err) => reject(err))
-=======
-        rej => reject(url))
->>>>>>> 882dc096f52dbcc323551fb720ea02836ce654e2
     })
   }
 

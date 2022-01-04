@@ -25,14 +25,7 @@ export class FavoritesPage implements OnInit {
 
   async loadData() {
 
-<<<<<<< HEAD
     this.categories = (await this.db.getCats()).filter(i => i.favoritesCount > 0);
-=======
-    try {
-      if ((await this.account.getUser()).isPermium)
-        this.categories = (await this.db.getCats()).filter(i => i.favoritesCount > 0);
-    } catch (error) { }
->>>>>>> 882dc096f52dbcc323551fb720ea02836ce654e2
 
     this.categoryService.get()
       .subscribe(

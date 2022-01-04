@@ -53,54 +53,7 @@ export class CardPage implements OnInit {
     
     this.category.id = this.route.snapshot.params["id"];
 
-<<<<<<< HEAD
     this.category = await this.db.findCat(this.category.id);
-=======
-    try {
-      if ((await this.account.getUser()).isPermium) {
-        this.category = await this.db.findCat(this.category.id);
-
-        const allcards = await this.db.getCards()
-
-        if (allcards)
-          this.cards = allcards?.filter(i => i.categoryId == this.category.id);
-      }
-    } catch (error) { }
-
-    this.categoryService.find(this.category.id)
-      .subscribe(
-        res => this.category = res.value
-      )
-
-    this.cardService.get(this.category.id)
-      .subscribe(
-        res => {
-          this.cards = res.value
-
-          this.cards.forEach(card => {
-            this.db.addCard(card);
-          })
-
-          // initializes the first card
-          this.next();
-        }
-      )
-
-  }
-
-  deltaX: number;
-  dragging: boolean = false;
-  readonly threshold = 75;
-
-  ngAfterViewInit(): void {
-
-    const cardGesture = this.gestureCtrl.create({
-      gestureName: 'card',
-      el: this.flipcard?.nativeElement,
-      onStart: () => { this.dragging = true; this.flipcard.nativeElement.style.transitionProperty = ""; },
-      onMove: (detail) => { this.deltaX = detail.deltaX },
-      onEnd: () => {
->>>>>>> 882dc096f52dbcc323551fb720ea02836ce654e2
 
     const allcards = await this.db.getCards()
 
@@ -127,40 +80,8 @@ export class CardPage implements OnInit {
 
   async slideChange() {
     this.flipped = false;
-<<<<<<< HEAD
     this.persian = false;
     this.cardPlace = await this.slider.getActiveIndex();
-=======
-    this.deltaX = 0;
-  }
-
-  cardClick() {
-    if (this.dragging) return;
-    this.flipped = !this.flipped;
-  }
-
-  async toggleFav() {
-    
-    if(!this.account.loggedIn) {
-
-      (await this.toastController.create({
-        color: "danger",
-        message: "برای نگه داشتن لیست علاقه مندی ها، ابتدا وارد حساب خود شوید",
-        duration: 3000,
-      })).present();
-      
-      return;
-    }
-    
-    this.currentCard.isFavorite = !this.currentCard.isFavorite;
-
-    // to favor
-    if (this.currentCard.isFavorite)
-      this.favorite.create(this.currentCard.id)
-    else
-      this.favorite.remove(this.currentCard.id)
-
->>>>>>> 882dc096f52dbcc323551fb720ea02836ce654e2
   }
   
 }
