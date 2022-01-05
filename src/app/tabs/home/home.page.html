@@ -14,8 +14,18 @@
 
 <ion-content [fullscreen]="true">
 
-  <ng-container *ngIf="queriedCategories?.length > 0; else noent">
-    <app-category-block *ngFor="let cat of queriedCategories" [category]="cat"></app-category-block>
+  <ng-container *ngIf="categories?.length > 0; else noent">
+    
+    <!-- Cards -->
+    <ng-container *ngIf="query; else category"> 
+      <app-card-block *ngFor="let card of queriedCards" [card]="card"></app-card-block>
+    </ng-container>
+
+    <!-- Category -->
+    <ng-template #category>
+      <app-category-block *ngFor="let cat of categories" [category]="cat"></app-category-block>
+    </ng-template>
+    
   </ng-container>
 
   <ng-template #noent>

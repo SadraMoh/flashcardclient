@@ -45,16 +45,37 @@
           </p>
 
           <br>
-          
+
           <ion-button [disabled]="working" (click)="signout()" color="primary">
             ورود
           </ion-button>
-          
+
         </div>
       </ion-card-content>
     </ion-card>
-    
+
   </ng-template>
+
+  <ng-container *ngIf="newVersionAvailable">
+    <ion-card>
+      <ion-card-content>
+        <div class="info">
+          <h2>آپدیت جدید</h2>
+          <p>
+            برای دریافت دسته بندی و کارت های جدید کلیک کنید
+          </p>
+
+          <br>
+
+          <ion-button [disabled]="working" (click)="updateDb()" color="primary">
+            آپدیت
+          </ion-button>
+
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
 
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button color="danger" (click)="signout()">

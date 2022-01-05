@@ -1,0 +1,51 @@
+@import "/src/theme/utility";
+@import "/src/theme/vars";
+
+$padding: 16px;
+
+.card {
+  display: grid;
+  grid-template-columns: 64px 1fr 64px;
+  grid-template-rows: 1fr;
+  grid-template-areas: "star content thumbnail ";
+  gap: calc($padding / 2);
+  direction: ltr;
+  padding: $padding;
+  position: relative;
+  cursor: pointer;
+
+  .thumbnail {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    object-position: center;
+    background-color: #f2f2f2;
+    border-radius: 12px;
+    grid-area: thumbnail;
+  }
+
+  .content {
+    margin: auto 12px auto 0;
+    grid-area: content;
+
+    .title {
+      margin: 0;
+      font-size: 1.3em;
+      color: $ion-color-dark-tint;
+    }
+
+    .info {
+      margin-bottom: 0;
+      margin-top: 8px;
+      color: $ion-color-medium;
+      gap: 8px;
+    }
+
+  }
+
+  .star {
+    grid-area: star;
+    margin: auto 0 auto 0;
+  }
+  
+}

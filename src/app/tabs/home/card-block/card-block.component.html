@@ -1,0 +1,11 @@
+<div (click)="click()">
+  <ion-card class="card ion-activatable ripple-parent">
+    <img class="thumbnail" [cacheload]="card.imageUrl" src="/assets/svg/loading.svg" fallbackImage alt="">
+    <div class="content">
+      <h2 class="title">{{ card.englishTitle }}</h2>
+      <div class="info">{{ card.translationPersianTitle }}</div>
+    </div>
+    <ion-icon class="star" icon="star" *ngIf="card.isFavorite" style="color: gold; font-size: x-large;"></ion-icon>
+    <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+  </ion-card>
+</div>

@@ -6,6 +6,7 @@ import { CategoryBlockComponent } from '../tabs/home/category-block/category-blo
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CacheloadDirective } from './directives/cacheload.directive';
+import { CardBlockComponent } from '../tabs/home/card-block/card-block.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { CacheloadDirective } from './directives/cacheload.directive';
     TelnoDirective,
     CategoryBlockComponent,
     CacheloadDirective,
+    CardBlockComponent,
   ],
   imports: [
     IonicModule,
@@ -23,7 +25,8 @@ import { CacheloadDirective } from './directives/cacheload.directive';
     FallbackImageDirective,
     TelnoDirective,
     CategoryBlockComponent,
-    CacheloadDirective
+    CacheloadDirective,
+    CardBlockComponent
   ]
 })
 export class UtilityModule { }

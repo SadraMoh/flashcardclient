@@ -7,6 +7,7 @@ import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { ToastController } from '@ionic/angular';
 import { DbService } from 'src/app/services/db.service';
 import { UserService } from 'src/app/services/user.service';
+import { ConfigService } from 'src/app/services/config.service';
 
 @Component({
   selector: 'app-profile',
@@ -17,6 +18,8 @@ export class ProfilePage implements OnInit {
 
   user?: User;
 
+  newVersionAvailable: Boolean = false;
+
   working: boolean = false;
 
   constructor(
@@ -24,11 +27,23 @@ export class ProfilePage implements OnInit {
     private iab: InAppBrowser,
     private pay: PayService,
     private toastController: ToastController,
-    private userService: UserService
+    private userService: UserService,
+    private config: ConfigService,
+    private db: DbService
   ) { }
 
   async ngOnInit() {
+
     this.user = await this.accountService.getUser();
+
+    // check for update
+    this.config.version().subscribe(async latestVersion => {
+      const currentVersion = await this.db.getVersion();
+
+      if (latestVersion > currentVersion)
+        this.newVersionAvailable = true;
+    });
+
   }
 
   purchase() {
@@ -75,5 +90,10 @@ export class ProfilePage implements OnInit {
   signout(): void {
     this.accountService.signout()
   }
+
+  async updateDb() {
+    await this.db.sourceOfTruth();
+  }
+
 
 }

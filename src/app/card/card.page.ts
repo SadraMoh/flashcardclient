@@ -34,7 +34,7 @@ export class CardPage implements OnInit {
 
   @ViewChild('slider')
   slider: IonSlides;
-  
+
   /** is the card flipped to reveal the text behind it */
   flipped: boolean = false;
 
@@ -50,8 +50,10 @@ export class CardPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    
+
     this.category.id = this.route.snapshot.params["id"];
+
+    const cardId = this.route.snapshot.params["cardId"];
 
     this.category = await this.db.findCat(this.category.id);
 
@@ -65,16 +67,20 @@ export class CardPage implements OnInit {
       // get it from the api
       await new Promise<void>(resolve => {
         this.cardService.get(this.category.id)
-        .subscribe(res => {
-          this.cards = res.value;
-          this.db.addCard(...this.cards);
-          resolve();
-        })
+          .subscribe(res => {
+            this.cards = res.value;
+            this.db.addCard(...this.cards);
+            resolve();
+          })
       })
     }
 
     // set first cards
     this.currentCard = this.cards[0];
+
+    // slide to card if card id was provided
+    if (cardId)
+      this.slider.slideTo(this.cards.findIndex(i => i.id == cardId))
 
   }
 
@@ -83,5 +89,5 @@ export class CardPage implements OnInit {
     this.persian = false;
     this.cardPlace = await this.slider.getActiveIndex();
   }
-  
+
 }

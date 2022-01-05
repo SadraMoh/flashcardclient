@@ -6,10 +6,11 @@ import { Storage } from '@ionic/storage-angular';
 import { from, Observable } from 'rxjs';
 import { Category } from '../models/category/Category';
 import { Card } from '../models/card/Card';
+import { Catpair } from '../models/category/Catpair';
 
-import { Platform } from '@ionic/angular';
-import { Capacitor } from '@capacitor/core';
+import { iosTransitionAnimation, Platform, ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
+import { CategoryService } from './category.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,9 +27,19 @@ export class DbService {
   constructor(
     private storage: Storage,
     private platform: Platform,
-    private client: HttpClient
+    private client: HttpClient,
+    public toastController: ToastController,
+    private categoryService: CategoryService
   ) {
     this.init();
+  }
+
+  public async setVersion(versionNum: number): Promise<string> {
+    return await this.set('version', JSON.stringify(versionNum));
+  }
+
+  public async getVersion(): Promise<number> {
+    return await JSON.parse(await this.get('version'));
   }
 
   public async getCats(): Promise<Category[]> {
@@ -54,10 +65,34 @@ export class DbService {
     return await (await this.getCards()).find(i => i.id == cardId);
   }
 
-  public async addCard(...cats: Card[]): Promise<string> {
-    const arr = [].concat(cats);
+  public async setCards(cards: Card[]): Promise<string> {
+    return await this.set('cards', JSON.stringify(cards));
+  }
+
+  public async addCard(...cards: Card[]): Promise<string> {
+    const arr = [].concat(cards);
     return await this.set('cards', JSON.stringify(arr));
   }
+
+  public async updateCard(card: Card) {
+    const cards = await this.getCards() ?? [];
+    const indexInvalidated = cards.findIndex(i => i.id == card.id);
+    cards[indexInvalidated] = card;
+    return await this.setCards(cards);
+  }
+
+  public async favCard(cardId: number) {
+    const card = await this.findCard(cardId);
+    card.isFavorite = true;
+    return this.updateCard(card);
+  }
+
+  public async unfavCard(cardId: number) {
+    const card = await this.findCard(cardId);
+    card.isFavorite = false;
+    return this.updateCard(card);
+  }
+
 
   initialized: boolean = false;
   async init() {
@@ -93,35 +128,6 @@ export class DbService {
   public save(url: string) {
     return new Promise<{ data: string | ArrayBuffer, filename: string }>(async (resolve, reject) => {
 
-      // const res = await fetch(url, {
-      //   "headers": {
-      //     "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-      //     "accept-language": "en-GB,en;q=0.9,fa;q=0.8,de;q=0.7,nl;q=0.6,ru;q=0.5,es;q=0.4,ja;q=0.3",
-      //     "cache-control": "no-cache",
-      //     "pragma": "no-cache",
-      //     "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Microsoft Edge\";v=\"96\"",
-      //     "sec-ch-ua-mobile": "?0",
-      //     "sec-ch-ua-platform": "\"Windows\"",
-      //     "sec-fetch-dest": "image",
-      //     "sec-fetch-mode": "no-cors",
-      //     "sec-fetch-site": "cross-site"
-      //   },
-      //   "referrer": window.location.href,
-      //   "referrerPolicy": "strict-origin-when-cross-origin",
-      //   "body": null,
-      //   "method": "GET",
-      //   "mode": "cors",
-      //   "credentials": "omit"
-      // });
-
-      // const data = await this.blobToImg(await res.blob())
-
-      // const filename = url;
-
-      // await this.set(filename, data);
-
-      // resolve({ data, filename });
-
       this.client.get(url, { responseType: 'blob' })
         .subscribe(async blob => {
           const data = await this.blobToImg(blob)
@@ -132,7 +138,7 @@ export class DbService {
 
           resolve({ data, filename });
         },
-        (err) => reject(err))
+          (err) => reject(err))
     })
   }
 
@@ -152,18 +158,65 @@ export class DbService {
     })
   }
 
-  // public async saveCategory(cat: Category, cards: Card[]) {
+  public async sourceOfTruth(): Promise<{ cats: Category[], cards: Card[], version: number }> {
 
-  //   let cats: Category[] = JSON.parse(await this.get("categories"));
-  //   cats ??= [];
-  //   cats.push?.(cat);
-  //   await this.set("categories", JSON.stringify(cats));
+    // from db
+    let categories = await this.getCats();
+    let cards = await this.getCards();
 
-  //   const tasks: Promise<any>[] = [];
-  //   cards.forEach(card => tasks.push(this.save(card.imageUrl), this.save(card.englishVoice)))
+    if (!categories || !cards) {
+      // 1
+      const downloading = (await this.toastController.create({
+        color: "primary",
+        message: 'در حال دانلود دیتای برنامه، لطفا صبر کنید...',
+        duration: 4000,
+      }));
+      downloading.present();
 
-  //   return await Promise.all(tasks)
+      // 2
+      const fromCloud = await new Promise<{ cats: Category[], cards: Card[], version: number }>((resolve, reject) => {
+        this.categoryService.all()
+          .subscribe(
+            async res => {
 
-  // }
+              const all = res.value;
+              const cloudCards = all.map(pair => pair.cards).reduceRight((acc = [], curr) => acc.concat(curr));
+              const cloudCats = all.map(pair => pair.category).sort((a) => a.isFree ? -1 : 1);
 
+              await this.setCards(cloudCards);
+              await this.setCats(cloudCats);
+
+              // 3
+              downloading.dismiss();
+              (await this.toastController.create({
+                color: "success",
+                message: 'دیتا با موفقیت دانلود شد',
+                duration: 2000,
+              })).present();
+
+              resolve({ cats: cloudCats, cards: cloudCards, version: 0 }); // @todo version 
+
+            },
+            async err => {
+              // err
+              downloading.dismiss();
+              (await this.toastController.create({
+                color: "danger",
+                message: 'دانلود دیتا با مشکل مواجه شد، لطا اتصال خود را به اینترنت بررسی کنید',
+                duration: 4000,
+              })).present();
+
+              reject(err)
+
+            });
+      });
+
+      return fromCloud;
+    }
+    else {
+      // from db
+      return { cats: categories, cards, version: 0 }  // @todo version 
+    }
+
+  }
 }

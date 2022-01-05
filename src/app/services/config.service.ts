@@ -36,12 +36,22 @@ export class ConfigService implements Controller {
       });
     }))
   }
-  
+
   categoryPrice(): Observable<string> {
     const to = join(this.route, 'categoryPrice');
 
     return from(new Promise<string>((res, rej) => {
       this.client.get<string>(to, { responseType: 'text' as any }).subscribe(result => {
+        res(result);
+      });
+    }))
+  }
+
+  version(): Observable<number> {
+    const to = join(this.route, 'version');
+
+    return from(new Promise<number>((res, rej) => {
+      this.client.get<number>(to).subscribe(result => {
         res(result);
       });
     }))

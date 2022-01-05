@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Category } from 'src/app/models/category/Category';
-import { AccountService } from 'src/app/services/account.service';
-import { CategoryService } from 'src/app/services/category.service';
+import { Card } from 'src/app/models/card/Card';
 import { DbService } from 'src/app/services/db.service';
 
 @Component({
@@ -11,28 +9,25 @@ import { DbService } from 'src/app/services/db.service';
 })
 export class FavoritesPage implements OnInit {
 
-  categories: Category[] = [];
+  cards: Card[] = [];
+
+  working: boolean = false;
 
   constructor(
-    private categoryService: CategoryService,
-    private account: AccountService,
     private db: DbService,
   ) { }
 
-  ngOnInit(): void {
-    this.loadData();
+  async ngOnInit() {
+    await this.loadData();
   }
 
   async loadData() {
+    this.working = true;
 
-    this.categories = (await this.db.getCats()).filter(i => i.favoritesCount > 0);
+    const { cards } = await this.db.sourceOfTruth();
+    this.cards = cards.filter(i => i.isFavorite);
 
-    this.categoryService.get()
-      .subscribe(
-        res => {
-          this.categories = res.value.filter(i => i.favoritesCount > 0);
-        }
-      )
+    this.working = false;
   }
 
 }

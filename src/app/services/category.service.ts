@@ -4,6 +4,7 @@ import { join } from '@fireflysemantics/join';
 import { Observable, from } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Category } from '../models/category/Category';
+import { Catpair } from '../models/category/Catpair';
 import { isResVaild, Res } from '../models/Res';
 
 @Injectable({
@@ -45,6 +46,20 @@ export class CategoryService {
           rej(result.message);
       });
     }))
+  }
+
+  all(): Observable<Res<Catpair[]>> {
+    const to = join(environment.api, 'all', 'get');
+
+    return from(new Promise<Res<Catpair[]>>((res, rej) => {
+      const a = this.client.get<Res<Catpair[]>>(to, {reportProgress: true}).subscribe(result => {
+        if (isResVaild(result))
+          res(result);
+        else
+          rej(result.message);
+      });
+    }))
+    
   }
 
 }

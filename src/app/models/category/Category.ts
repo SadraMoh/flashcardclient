@@ -6,6 +6,4 @@ export interface Category {
   cardCount: number;
   isFree: boolean;
   isPayed: boolean;
-  //--
-  downloaded: boolean;
 }

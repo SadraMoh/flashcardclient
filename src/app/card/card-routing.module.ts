@@ -8,6 +8,10 @@ const routes: Routes = [
   {
     path: ':id',
     component: CardPage
+  },
+  {
+    path: ':id/:cardId',
+    component: CardPage
   }
 ];
 

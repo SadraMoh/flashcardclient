@@ -1,8 +1,6 @@
-import { HttpClient, HttpHandler } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Card } from 'src/app/models/card/Card';
 import { Category } from 'src/app/models/category/Category';
-import { AccountService } from 'src/app/services/account.service';
-import { CategoryService } from 'src/app/services/category.service';
 import { DbService } from 'src/app/services/db.service';
 
 @Component({
@@ -16,36 +14,30 @@ export class HomePage implements OnInit {
 
   categories: Category[]
 
-  working: boolean = false;
+  cards: Card[]
 
-  public get queriedCategories(): Category[] {
-    if (!this.query) return this.categories;
-    return this.categories?.filter(i => i.title?.toLowerCase().includes(this.query?.trim().toLowerCase()))
+  public get queriedCards(): Card[] {
+    return this.cards.filter(i => i.englishTitle.includes(this.query.trim()) || i.translationPersianTitle.includes(this.query.trim()));
   }
 
+  working: boolean = false;
+
   constructor(
-    private categoryService: CategoryService,
-    private account: AccountService,
     private db: DbService,
   ) { }
 
-  ngOnInit(): void {
-    this.loadData();
+  async ngOnInit() {
+    await this.loadData();
   }
 
   async loadData() {
     this.working = true;
 
-    this.categories = await this.db.getCats();
+    const { cards, cats } = await this.db.sourceOfTruth();
+    this.cards = cards;
+    this.categories = cats;
 
-    this.categoryService.get()
-      .subscribe(
-        async res => {
-          this.categories = res.value;
-          await this.db.setCats(res.value);
-          this.working = false;
-        }
-      )
+    this.working = false;
   }
-
 }
+
