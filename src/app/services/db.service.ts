@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Directory, Encoding, Filesystem } from '@capacitor/filesystem';
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver'
 
 import { Storage } from '@ionic/storage-angular';
-import { from, Observable } from 'rxjs';
 import { Category } from '../models/category/Category';
 import { Card } from '../models/card/Card';
-import { Catpair } from '../models/category/Catpair';
 
-import { iosTransitionAnimation, Platform, ToastController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { CategoryService } from './category.service';
 
@@ -26,7 +23,6 @@ export class DbService {
 
   constructor(
     private storage: Storage,
-    private platform: Platform,
     private client: HttpClient,
     public toastController: ToastController,
     private categoryService: CategoryService
@@ -35,11 +31,11 @@ export class DbService {
   }
 
   public async setVersion(versionNum: number): Promise<string> {
-    return await this.set('version', JSON.stringify(versionNum));
+    return await this.set('version', versionNum);
   }
 
-  public async getVersion(): Promise<number> {
-    return await JSON.parse(await this.get('version'));
+  public async getVersion(): Promise<Number> {
+    return Number(await this.get('version'));
   }
 
   public async getCats(): Promise<Category[]> {
@@ -100,7 +96,11 @@ export class DbService {
 
     const storage = await this.storage.create();
     this._storage = storage;
+
     this.initialized = true;
+
+    const dbVersion = await this.getVersion();
+    if (dbVersion == undefined) await this.setVersion(1);
   }
 
   /** returns true when the storage is ready, use with await to wait for when the storage is ready */
@@ -123,6 +123,11 @@ export class DbService {
   public async get(key: string): Promise<string> {
     await this.storageIsReady();
     return await this._storage.get(key);
+  }
+
+  public async exists(key: string): Promise<boolean> {
+    await this.storageIsReady();
+    return Boolean(await this._storage.get(key));
   }
 
   public save(url: string) {
@@ -158,11 +163,17 @@ export class DbService {
     })
   }
 
-  public async sourceOfTruth(): Promise<{ cats: Category[], cards: Card[], version: number }> {
+  public async sourceOfTruth(forceDownload: boolean = false): Promise<{ cats: Category[], cards: Card[], version: number }> {
 
     // from db
-    let categories = await this.getCats();
-    let cards = await this.getCards();
+    let categories: Category[]
+    let cards: Card[]
+
+    // do not attempt to get data from the db when forceDownload is true
+    if (!forceDownload) {
+      categories = await this.getCats();
+      cards = await this.getCards();
+    }
 
     if (!categories || !cards) {
       // 1

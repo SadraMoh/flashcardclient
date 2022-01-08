@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AccountService } from 'src/app/services/account.service';
 import { User } from 'src/app/models/user/User';
 import { PayService } from 'src/app/services/pay.service';
@@ -18,7 +18,18 @@ export class ProfilePage implements OnInit {
 
   user?: User;
 
-  newVersionAvailable: Boolean = false;
+  currentVersion: number = 0;
+  latestVersion: number = 0;
+
+  premiumText: string;
+  price: string;
+
+  aboutText: string;
+  contactText: string;
+
+  public get newVersionAvailable(): boolean {
+    return this.latestVersion > this.currentVersion;
+  }
 
   working: boolean = false;
 
@@ -29,20 +40,25 @@ export class ProfilePage implements OnInit {
     private toastController: ToastController,
     private userService: UserService,
     private config: ConfigService,
-    private db: DbService
+    private db: DbService,
   ) { }
 
   async ngOnInit() {
 
     this.user = await this.accountService.getUser();
 
-    // check for update
-    this.config.version().subscribe(async latestVersion => {
-      const currentVersion = await this.db.getVersion();
+    Promise.all(
+      [
+        this.config.permiumText().then(i => this.premiumText = i),
+        this.config.categoryPrice().then(i => this.price = i),
+        this.config.aboutUsText().then(i => this.aboutText = i),
+        this.config.contactUsText().then(i => this.contactText = i),
+      ]
+    )
 
-      if (latestVersion > currentVersion)
-        this.newVersionAvailable = true;
-    });
+    // check for update
+    this.latestVersion = await this.config.dataversion();
+    this.currentVersion = Number(await this.db.getVersion());
 
   }
 
@@ -92,7 +108,9 @@ export class ProfilePage implements OnInit {
   }
 
   async updateDb() {
-    await this.db.sourceOfTruth();
+    await this.db.sourceOfTruth(true);
+    await this.db.setVersion(this.latestVersion);
+    this.currentVersion = this.latestVersion;
   }
 
 

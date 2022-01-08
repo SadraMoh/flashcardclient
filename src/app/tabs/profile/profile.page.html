@@ -22,11 +22,12 @@
       <ion-card-content>
         <h3>نسخه پریمیوم</h3>
         <p>
-          متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با
-          استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.
-          توسط فرم زیر می توانید متن ساختگی مورد نظر خود را در واحدهای کاراکتر، کلمه و پاراگراف تولید کنید، سپس آنرا کپی
-          کنید و در کار مورد نظر خود قرار دهید.
+          {{premiumText}}
         </p>
+        <strong>
+          {{price}}
+          تومان
+        </strong>
         <ion-button [disabled]="working" (click)="purchase()" color="light">
           خرید
         </ion-button>
@@ -76,6 +77,31 @@
     </ion-card>
   </ng-container>
 
+  <ng-container *ngIf="aboutText">
+    <ion-card>
+      <ion-card-content>
+        <div class="info">
+          <h2>درباره ما</h2>
+          <p>
+            {{ aboutText }}
+          </p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+  <ng-container *ngIf="contactText">
+    <ion-card>
+      <ion-card-content>
+        <div class="info">
+          <h2>تماس با ما</h2>
+          <p>
+            {{ contactText }}
+          </p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
 
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button color="danger" (click)="signout()">
