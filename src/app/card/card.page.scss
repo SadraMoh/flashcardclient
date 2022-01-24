@@ -48,6 +48,8 @@
         border-radius: 16px;
       }
 
+      @include noscroll();
+
       .dotnav {
         @include row;
         flex-wrap: wrap;
@@ -55,6 +57,10 @@
         justify-content: center;
         min-width: 164px;
         gap: 8px;
+        max-height: 42px;
+        overflow-y: auto;
+
+        @include noscroll();
 
         .dot {
           border-radius: 6px;

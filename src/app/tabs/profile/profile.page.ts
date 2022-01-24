@@ -108,8 +108,19 @@ export class ProfilePage implements OnInit {
   }
 
   async updateDb() {
+
+    Promise.all(
+      [
+        this.config.permiumText(true).then(i => this.premiumText = i),
+        this.config.categoryPrice(true).then(i => this.price = i),
+        this.config.aboutUsText(true).then(i => this.aboutText = i),
+        this.config.contactUsText(true).then(i => this.contactText = i),
+      ]
+    )
+
     await this.db.sourceOfTruth(true);
     await this.db.setVersion(this.latestVersion);
+
     this.currentVersion = this.latestVersion;
   }
 

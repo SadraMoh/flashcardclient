@@ -9,7 +9,7 @@
 
 <ion-content fullscreen="true">
 
-  <ion-slides style="height: 100%;" #slider (ionSlideWillChange)="slideChange()">
+  <ion-slides style="height: 100%;" #slider (ionSlideWillChange)="slideChange()" (ionSlideDidChange)="slideDidChange()">
     <ion-slide *ngFor="let card of cards">
       <app-flipcard [card]="card" [(flipped)]="flipped" [(persian)]="persian"></app-flipcard>
     </ion-slide>
@@ -37,7 +37,7 @@
         </button>
 
         <div class="dotnav">
-          <div class="dot" *ngFor="let card of cards; let i = index" [class.passed]="cardPlace > i"
+          <div class="dot" *ngFor="let card of cards; let i = index" [class.passed]="cardPlace > i" 
             [class.active]="cardPlace == i" (click)="slider.slideTo(i)"></div>
         </div>
 

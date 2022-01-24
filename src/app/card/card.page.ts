@@ -24,6 +24,9 @@ export class CardPage implements OnInit {
   /** current visible cards */
   currentCard: Card;
 
+  /** show only favorites */
+  favsOnly: boolean = false;
+  
   public get cardPlace(): number {
     return this.cards.indexOf(this.currentCard);
   }
@@ -55,6 +58,8 @@ export class CardPage implements OnInit {
 
     const cardId = this.route.snapshot.params["cardId"];
 
+    this.favsOnly = this.route.snapshot.queryParams["favs"] == 'true';
+
     this.category = await this.db.findCat(this.category.id);
 
     const allcards = await this.db.getCards()
@@ -82,12 +87,19 @@ export class CardPage implements OnInit {
     if (cardId)
       this.slider.slideTo(this.cards.findIndex(i => i.id == cardId))
 
+    if(this.favsOnly)
+      this.cards = this.cards.filter(card => card.isFavorite);
+      
   }
 
   async slideChange() {
     this.flipped = false;
     this.persian = false;
     this.cardPlace = await this.slider.getActiveIndex();
+  }
+
+  slideDidChange() {
+    document.querySelector('.dot.active').scrollIntoView({ behavior: 'smooth', block: 'end' });
   }
 
 }

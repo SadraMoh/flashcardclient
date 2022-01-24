@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ViewWillEnter } from '@ionic/angular';
 import { Card } from 'src/app/models/card/Card';
 import { Category } from 'src/app/models/category/Category';
 import { DbService } from 'src/app/services/db.service';
@@ -8,7 +9,7 @@ import { DbService } from 'src/app/services/db.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss']
 })
-export class HomePage implements OnInit {
+export class HomePage implements ViewWillEnter {
 
   query: string;
 
@@ -26,7 +27,7 @@ export class HomePage implements OnInit {
     private db: DbService,
   ) { }
 
-  async ngOnInit() {
+  async ionViewWillEnter() {
     await this.loadData();
   }
 

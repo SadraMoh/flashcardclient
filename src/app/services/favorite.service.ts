@@ -21,6 +21,18 @@ export class FavoriteService implements Controller {
 
     this.db.favCard(cardId);
 
+    // add to category favcount
+    this.db.getCats().then(cats => {
+      this.db.getCards().then(cards => {
+        const card = cards.find(card => card.id == cardId);
+
+        const catIndex = cats.findIndex(cat => cat.id == card.categoryId);
+        cats[catIndex].favoritesCount++
+
+        this.db.setCats(cats)
+      })
+    });
+
     return from(new Promise<boolean>((res) => {
       this.client.post<boolean>(to, null, { params: { id: cardId } }).subscribe(result => {
         res(true);
@@ -33,6 +45,18 @@ export class FavoriteService implements Controller {
 
     this.db.unfavCard(cardId);
 
+    // subtract frp, category favcount
+    this.db.getCats().then(cats => {
+      this.db.getCards().then(cards => {
+        const card = cards.find(card => card.id == cardId);
+
+        const catIndex = cats.findIndex(cat => cat.id == card.categoryId);
+        cats[catIndex].favoritesCount--
+
+        this.db.setCats(cats)
+      })
+    });
+    
     return from(new Promise<boolean>((res) => {
       this.client.post<boolean>(to, null, { params: { id: cardId } }).subscribe(result => {
         res(false);

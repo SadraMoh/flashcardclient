@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      نشان ها
+    <ion-title class="ion-text-center">
+      My Cards
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -10,12 +10,16 @@
 
   <ng-container *ngIf="!working; else noent">
 
-    <ng-container *ngIf="cards?.length > 0; else nofav">
-      <app-card-block *ngFor="let cat of cards" [card]="cat"></app-card-block>
-    </ng-container>
+    <!-- <ng-container *ngIf="cards?.length > 0; else nofav">
+      <app-card-block *ngFor="let card of cards" [card]="card"></app-card-block>
+    </ng-container> -->
 
+     <ng-container *ngIf="cats?.length > 0; else nofav">
+       <app-category-block *ngFor="let cat of cats" [category]="cat" [favOnly]="true"></app-category-block>
+    </ng-container>
+    
     <ng-template #nofav>
-      <span class="noent">شما هنوز هیچ کارت را به علاقه مندی های خود اضافه نکرده اید</span>
+      <span class="noent">شما هنوز هیچ کارتی را به علاقه مندی های خود اضافه نکرده اید</span>
     </ng-template>
 
   </ng-container>

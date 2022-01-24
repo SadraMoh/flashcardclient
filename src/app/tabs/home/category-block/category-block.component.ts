@@ -15,6 +15,9 @@ export class CategoryBlockComponent implements OnInit {
   @Input('category')
   category: Category;
 
+  @Input('favOnly')
+  favOnly: boolean = false;
+
   constructor(
     public accountService: AccountService,
     private router: Router,
@@ -34,12 +37,12 @@ export class CategoryBlockComponent implements OnInit {
     } catch (error) { }
 
     if (user?.isPermium) {
-      this.router.navigate(['/', 'card', this.category.id])
+      this.router.navigate(['/', 'card', this.category.id], { queryParams: { favs: this.favOnly } })
       return;
     }
 
     if (this.category.isFree)
-      this.router.navigate(['/', 'card', this.category.id])
+      this.router.navigate(['/', 'card', this.category.id], { queryParams: { favs: this.favOnly } })
     else {
       (await this.toastController.create({
         color: "danger",
