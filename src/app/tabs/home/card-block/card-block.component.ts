@@ -38,11 +38,24 @@ export class CardBlockComponent implements OnInit {
       return;
     }
 
-    (await this.toastController.create({
+    const toast = (await this.toastController.create({
       color: "danger",
-      message: "برای مشاهده این کارت حساب پریمیوم لازم است",
+      message: "برای مشاهده این دسته بندی حساب پریمیوم لازم است",
       duration: 4000,
-    })).present();
+      buttons: [
+        {
+          side: 'end',
+          cssClass: 'btn-toast-toaccount',
+          icon: 'person-circle-outline',
+          text: ' برو به حساب ',
+          handler: () => {
+            this.router.navigate(['/', 'tabs', 'profile' ]);
+            toast.dismiss()
+          }
+        }
+      ]
+    }))
+    toast.present();
 
   }
 

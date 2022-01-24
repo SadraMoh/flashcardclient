@@ -18,7 +18,11 @@ export class HomePage implements ViewWillEnter {
   cards: Card[]
 
   public get queriedCards(): Card[] {
-    return this.cards.filter(i => i.englishTitle.includes(this.query.trim()) || i.translationPersianTitle.includes(this.query.trim()));
+    return (this.cards
+      ?.filter(i =>
+        i.englishTitle.toLowerCase().includes(this.query.toLowerCase().trim())
+        || i.translationPersianTitle.includes(this.query.trim())
+      )).slice(0, 25);
   }
 
   working: boolean = false;
