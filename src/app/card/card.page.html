@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ category.title ?? 'نام دسته بندی' }}</ion-title>
+    <ion-title>{{ category.title }}</ion-title>
     <ion-buttons slot="end">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -10,7 +10,7 @@
 <ion-content fullscreen="true">
 
   <ion-slides style="height: 100%;" #slider (ionSlideWillChange)="slideChange()" (ionSlideDidChange)="slideDidChange()">
-    <ion-slide *ngFor="let card of cards">
+    <ion-slide *ngFor="let card of renderableCards">
       <app-flipcard [card]="card" [(flipped)]="flipped" [(persian)]="persian"></app-flipcard>
     </ion-slide>
   </ion-slides>
@@ -38,7 +38,7 @@
 
         <div class="dotnav">
           <div class="dot" *ngFor="let card of cards; let i = index" [class.passed]="cardPlace > i" 
-            [class.active]="cardPlace == i" (click)="slider.slideTo(i)"></div>
+            [class.active]="cardPlace == i" (click)="slider.slideTo(i);"></div>
         </div>
 
         <button class="btn-nav forward" (click)="slider.slideNext()">

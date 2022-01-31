@@ -21,12 +21,14 @@ export class CardPage implements OnInit {
   /** all of this category's cards */
   cards: Card[] = [];
 
+  renderableCards: Card[] = [];
+
   /** current visible cards */
   currentCard: Card;
 
   /** show only favorites */
   favsOnly: boolean = false;
-  
+
   public get cardPlace(): number {
     return this.cards.indexOf(this.currentCard);
   }
@@ -67,6 +69,8 @@ export class CardPage implements OnInit {
     if (allcards)
       this.cards = allcards?.filter(i => i.categoryId == this.category.id);
 
+    this.renderableCards = this.cards.slice(0, 2);
+
     // if data wasn't available in the db
     if (this.cards.length == 0) {
       // get it from the api
@@ -87,15 +91,26 @@ export class CardPage implements OnInit {
     if (cardId)
       this.slider.slideTo(this.cards.findIndex(i => i.id == cardId))
 
-    if(this.favsOnly)
+    if (this.favsOnly)
       this.cards = this.cards.filter(card => card.isFavorite);
-      
+
   }
 
   async slideChange() {
     this.flipped = false;
     this.persian = false;
     this.cardPlace = await this.slider.getActiveIndex();
+
+    // cards to render in the slider
+    // (n - 1, n, n + 1)
+
+    // let min = this.cardPlace - 2;
+    // min = min < 0 ? 0 : min;
+
+    let max = this.cardPlace + 2;
+    max = (max > this.cards.length) ? this.cards.length : max;
+
+    this.renderableCards = this.cards.slice(0, max);
   }
 
   slideDidChange() {
