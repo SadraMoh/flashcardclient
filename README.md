@@ -15,18 +15,18 @@ Basic JWT authentication.
 Nextpay gateway api is used to handle payments.
 
 ### Technologies
-Angular 12 & RxJs
-Ionic 4 & Capacitor
+- Angular 12 & RxJs
+- Ionic 4 & Capacitor
 
 ### Lanugages
-Scss
-Typescript
-HTML
+- Scss
+- Typescript
+- HTML
 
 ### Tools
-VSCode
-Android Studio
-Git
+- VSCode
+- Android Studio
+- Git
 
 **Serve**  
 ` ionic serve `
